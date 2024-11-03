@@ -154,11 +154,11 @@ const Map<Map<String, String>, Map<String, IconData>> councilDetails = {
 const Map<Map<String, String>, Map<String, IconData>> meetingDetails = {
   {'مواضيع أساسية': 'عرض المواضيع الأساسية وإمكانية التعليق أو التصويت'}: {
     'إضافة تعليق أو تصويت على الموضوع وعرض التعليقات':
-        FontAwesomeIcons.handshakeSimple,
+        FontAwesomeIcons.solidRectangleList,
   },
   {'ما يستجد من أعمال': 'عرض المواضيع الجديدة وإمكانية التعليق أو التصويت'}: {
     'إضافة تعليق أو تصويت على الموضوع وعرض التعليقات':
-        FontAwesomeIcons.solidRectangleList,
+        FontAwesomeIcons.rectangleList,
   },
   {'الأعضاء': 'عرض الأعضاء الحاضرين الموضوع'}: {
     'عرض الأعضاء الحاضرين وصفة كل عضو داخل الموضوع':
@@ -168,3 +168,9 @@ const Map<Map<String, String>, Map<String, IconData>> meetingDetails = {
     'ملفات المرفقات الملحقة بكل موضوع': FontAwesomeIcons.fileContract,
   },
 };
+
+const List<List<String>> appServicesChips = [
+  ...mainChipList,
+  ...chipList,
+  ...chipListHR
+];

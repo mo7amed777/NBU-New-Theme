@@ -21,7 +21,7 @@ class Timeline extends StatelessWidget {
                 backgroundColor: Colors.white,
                 initPosition: Offset(-100, 0),
                 child: Image.asset(
-                  'assets/images/academic/table.jpeg',
+                  'assets/images/table.jpeg',
                   fit: BoxFit.fill,
                 ),
               ),

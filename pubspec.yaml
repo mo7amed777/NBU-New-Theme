@@ -87,3 +87,7 @@ flutter:
     - family: AL-MOHANAD_BOLD
       fonts:
         - asset: assets/fonts/AL-MOHANAD_BOLD.ttf
+    - family: TraditionalArabic
+      fonts:
+        - asset: assets/fonts/Traditional-Arabic.ttf
+        - asset: assets/fonts/Traditional-Arabic-Bold.ttf

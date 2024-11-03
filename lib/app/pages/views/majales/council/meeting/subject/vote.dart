@@ -36,34 +36,40 @@ class _SubjectVoteState extends State<SubjectVote> {
               fit: StackFit.expand,
               children: [
                 Center(
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButtonFormField(
-                        padding: EdgeInsets.all(8.sp),
-                        items: widget.voteOptions!
-                            .map(
-                              (vote) => DropdownMenuItem(
-                                  value: vote['id'],
-                                  alignment: Alignment.center,
-                                  child: Text(vote['nameAr'])),
-                            )
-                            .toList(),
-                        elevation: 15,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide.none,
+                  child: Card(
+                    margin: EdgeInsets.all(8.sp),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButtonFormField(
+                          padding: EdgeInsets.all(8.sp),
+                          items: widget.voteOptions!
+                              .map(
+                                (vote) => DropdownMenuItem(
+                                    value: vote['id'],
+                                    alignment: Alignment.center,
+                                    child: Text(vote['nameAr'])),
+                              )
+                              .toList(),
+                          elevation: 15,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: BorderSide.none,
+                            ),
                           ),
-                        ),
-                        value: _vote,
-                        hint: Text(' اختر التصويت'),
-                        onChanged: (vote) {
-                          setState(() {
-                            _vote = vote! as int?;
+                          value: _vote,
+                          hint: Text(' اختر التصويت'),
+                          onChanged: (vote) {
                             setState(() {
-                              _visibility = true;
+                              _vote = vote! as int?;
+                              setState(() {
+                                _visibility = true;
+                              });
                             });
-                          });
-                        }),
+                          }),
+                    ),
                   ),
                 ),
                 !_visibility
@@ -71,7 +77,7 @@ class _SubjectVoteState extends State<SubjectVote> {
                     : Positioned(
                         bottom: 16.h,
                         width: Get.width * 0.75,
-                        height: 30.h,
+                        height: 35.h,
                         child: CustomButton(
                           color: colorPrimary,
                           callBack: () async {

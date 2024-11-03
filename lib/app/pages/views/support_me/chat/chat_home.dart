@@ -52,6 +52,8 @@ class _ChatsState extends State<Chats> {
         .build();
 
     await connection?.start();
+    connection?.serverTimeoutInMilliseconds = 1000000;
+
     connection?.on('ReceiveMessage', (message) async {
       if (message != null) {
         if (message[0]['isAddchat'] == true) {
@@ -85,6 +87,7 @@ class _ChatsState extends State<Chats> {
     if (connection?.state != HubConnectionState.connected) {
       openConnection();
     }
+
     getCount();
   }
 

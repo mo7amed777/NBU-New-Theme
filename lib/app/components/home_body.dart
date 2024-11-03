@@ -21,6 +21,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+List<String> allServices = [];
+
 class HomeBody extends StatelessWidget {
   final String userID;
   final String userType;
@@ -39,8 +41,18 @@ class HomeBody extends StatelessWidget {
 
   final TextEditingController _searchController = TextEditingController();
 
+  void getAllServices() {
+    for (List<String> appService in appServicesChips) {
+      for (String service in appService) {
+        allServices.add(service);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    getAllServices();
+
     return SingleChildScrollView(
         child: switch (index) {
       0 => Column(
@@ -152,45 +164,70 @@ class HomeBody extends StatelessWidget {
             ],
           ),
           SizedBox(height: 20.h),
-          Container(
-            height: 45.h,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: colorBlackLighter,
+          GetBuilder<SearchingController>(
+            init: SearchingController(),
+            builder: (controller) => Container(
+              height: 45.h,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: colorBlackLighter,
+                ),
+                borderRadius: BorderRadius.circular(50).r,
               ),
-              borderRadius: BorderRadius.circular(50).r,
-            ),
-            child: Center(
-              child: TextField(
-                controller: _searchController,
-                style: appTextStyle.copyWith(
-                  color: colorWhite,
-                ),
-                decoration: InputDecoration(
-                  hintText: " بـحــث",
-                  contentPadding: EdgeInsets.only(right: 12.w, top: 8.h),
-                  hintStyle: appTextStyle.copyWith(
-                    color: colorWhiteLight,
+              child: Center(
+                child: TextField(
+                  controller: _searchController,
+                  style: appTextStyle.copyWith(
+                    color: colorWhite,
                   ),
-                  border: InputBorder.none,
-                  suffixIcon: IconButton(
-                    onPressed: () => _onSearch(),
-                    icon: Icon(FontAwesomeIcons.magnifyingGlass,
-                        color: colorWhite, size: 18.sp),
+                  decoration: InputDecoration(
+                    hintText: " بـحــث",
+                    contentPadding: EdgeInsets.only(right: 12.w, top: 8.h),
+                    hintStyle: appTextStyle.copyWith(
+                      color: colorWhiteLight,
+                    ),
+                    border: InputBorder.none,
+                    suffixIcon: IconButton(
+                      onPressed: () =>
+                          controller.onSearch(_searchController.text),
+                      icon: Icon(FontAwesomeIcons.magnifyingGlass,
+                          color: colorWhite, size: 18.sp),
+                    ),
                   ),
+                  onChanged: (value) =>
+                      controller.onSearch(value, isChanged: true),
                 ),
-                onSubmitted: (_) => _onSearch(),
               ),
             ),
           ),
+          GetBuilder<SearchingController>(
+              init: SearchingController(),
+              builder: (controller) => controller.showResults.value
+                  ? ListView.builder(
+                      itemCount: controller.searchList.length,
+                      padding: EdgeInsets.all(8.sp),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () => controller
+                            .onSearchResult(controller.searchList[index]),
+                        child: Padding(
+                          padding: EdgeInsets.all(8.sp),
+                          child: Center(
+                            child: Text(
+                              controller.searchList[index],
+                              style: appTextStyle.copyWith(
+                                color: colorWhite,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : SizedBox.shrink())
         ],
       ),
     );
-  }
-
-  void _onSearch() {
-    String query = _searchController.text.trim();
-    if (query.isNotEmpty) {}
   }
 
   Widget sectionTitle(
@@ -388,4 +425,31 @@ void openMainService({required String title, required String userID}) async {
       getSurveys(userID: userID);
       break;
   }
+}
+
+class SearchingController extends GetxController {
+  RxBool showResults = false.obs;
+  RxList searchList = [].obs;
+
+  void onSearch(String query, {bool isChanged = false}) {
+    if (isChanged) {
+      searchList.clear();
+      showResults.value = false;
+    }
+    if (query.trim().isNotEmpty) {
+      for (String service in allServices) {
+        if (service.toLowerCase().contains(query.toLowerCase()) &&
+            !searchList.contains(service)) {
+          searchList.add(service);
+          showResults.value = true;
+          update();
+        }
+      }
+    } else {
+      showResults.value = false;
+      update();
+    }
+  }
+
+  void onSearchResult(String value) {}
 }

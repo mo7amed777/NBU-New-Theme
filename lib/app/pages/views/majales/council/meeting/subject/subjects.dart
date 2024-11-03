@@ -71,7 +71,7 @@ class MeetingSubjects extends StatelessWidget {
                                     decision: subject.decision ?? '',
                                   ));
                             },
-                            icon: FontAwesomeIcons.asymmetrik,
+                            icon: FontAwesomeIcons.fileLines,
                             margin: EdgeInsets.all(8.sp),
                           );
                         }),

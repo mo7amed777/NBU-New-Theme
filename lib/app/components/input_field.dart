@@ -51,7 +51,7 @@ class _InputFieldState extends State<InputField> {
                 fontWeight:
                     widget.obsecured ? FontWeight.bold : FontWeight.normal),
             contentPadding:
-                EdgeInsets.only(right: 8, top: widget.obsecured ? 2 : 0),
+                EdgeInsets.only(right: 8, top: widget.obsecured ? 2 : 5.h),
             suffixIcon: !widget.obsecured
                 ? SizedBox(
                     height: 1,

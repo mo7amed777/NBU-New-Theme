@@ -12,8 +12,6 @@ Future<pw.Document> createPDF(
     required String nationality,
     required SalaryDefinition salaryDefinition,
     Uint8List? qr}) async {
-  final fontData = await rootBundle.load("assets/fonts/Traditional-Arabic.ttf");
-  final ttf = pw.Font.ttf(fontData);
   final fontDataBold =
       await rootBundle.load("assets/fonts/Traditional-Arabic-Bold.ttf");
   final ttfBold = pw.Font.ttf(fontDataBold);
@@ -38,7 +36,7 @@ Future<pw.Document> createPDF(
       String cellTextEN = "",
       double cellWidth = 90}) {
     return pw.Container(
-      padding: pw.EdgeInsets.symmetric(vertical: 6, horizontal: 6),
+      padding: pw.EdgeInsets.all(4.sp),
       width: cellWidth,
       child: cellWidth == 90
           ? pw.Text(
@@ -79,15 +77,15 @@ Future<pw.Document> createPDF(
     pw.Page(
       theme: pw.ThemeData.withFont(bold: ttfBold, base: ttfBold),
       textDirection: pw.TextDirection.rtl,
-      margin: pw.EdgeInsets.all(8.0),
+      margin: pw.EdgeInsets.all(4.sp),
       pageFormat: PdfPageFormat.a4,
       build: (pw.Context context) {
         return pw.Column(
           children: [
             pw.Image(header),
-            pw.SizedBox(height: 12.sp),
+            pw.SizedBox(height: 5.h),
             pw.Padding(
-              padding: pw.EdgeInsets.symmetric(horizontal: 8.sp),
+              padding: pw.EdgeInsets.symmetric(horizontal: 8.w),
               child: pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
@@ -110,7 +108,7 @@ Future<pw.Document> createPDF(
             pw.Text('Salary Certificate',
                 style: pw.TextStyle(fontSize: 15.sp),
                 textAlign: pw.TextAlign.center),
-            pw.SizedBox(height: 10.h),
+            pw.SizedBox(height: 5.h),
             pw.Table(
               border: pw.TableBorder.all(),
               children: [
@@ -387,23 +385,21 @@ Future<pw.Document> createPDF(
             //   ),
             //   textDirection: pw.TextDirection.rtl,
             // ),
-            pw.SizedBox(height: 10),
+            pw.SizedBox(height: 5.h),
 
-            pw.Image(rowText, height: 150),
-            pw.SizedBox(height: 20),
+            pw.Image(rowText, height: 120.h),
             pw.Padding(
               padding: pw.EdgeInsets.symmetric(horizontal: 8.sp),
               child: pw.Row(
                 children: [
                   qr != null
-                      ? pw.Image(pw.MemoryImage(qr), width: 75, height: 75)
+                      ? pw.Image(pw.MemoryImage(qr), width: 75.w, height: 75.h)
                       : pw.Container(),
-                  pw.SizedBox(width: 75.sp),
-                  pw.Image(signature, height: 150),
+                  pw.SizedBox(width: 75.w),
+                  pw.Image(signature, height: 120.h),
                 ],
               ),
             ),
-            pw.SizedBox(height: 10),
 
             pw.Text(
               'هذه الوثيقة صادرة عن طريق الحاسب الآلى ولا تحتاج الى توقيع أو ختم',
@@ -420,7 +416,18 @@ Future<pw.Document> createPDF(
               style: pw.TextStyle(
                 fontSize: 10.sp,
               ),
-            )
+            ),
+            pw.SizedBox(height: 5.h),
+            pw.Text(
+              '* تنويه: هذا المستند لا يعتد به في الإستخدام الرسمي *',
+              textDirection: pw.TextDirection.rtl,
+              textAlign: pw.TextAlign.center,
+              style: pw.TextStyle(
+                fontSize: 14.sp,
+                fontWeight: pw.FontWeight.bold,
+                color: PdfColors.red,
+              ),
+            ),
             // Replace with your QR code image
           ],
         );

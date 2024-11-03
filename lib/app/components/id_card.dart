@@ -27,17 +27,15 @@ class IDCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             child: Image.asset(
               'assets/images/card.png',
-              fit: BoxFit.fill,
-              height: Get.height * 0.78,
             ),
           ),
           Positioned(
-              top: 84.h,
+              top: 70.h,
               left: 0,
               right: 0,
               child: userType != "student" && image!.isNotEmpty
                   ? Container(
-                      height: 120.h,
+                      height: 115.h,
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -48,7 +46,7 @@ class IDCard extends StatelessWidget {
                       ),
                     )
                   : Container(
-                      height: 120.h,
+                      height: 115.h,
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -63,12 +61,12 @@ class IDCard extends StatelessWidget {
                       ),
                     )),
           Positioned(
-            bottom: 15.h,
-            left: 1,
-            right: 1,
+            bottom: 35.h,
+            left: 10.w,
+            // right: 1,
             child: Container(
-              height: 65.h,
-              width: 71.w,
+              height: 60.h,
+              width: 65.w,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
@@ -85,7 +83,7 @@ class IDCard extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: Get.height * 0.23,
+            top: Get.height * 0.25,
             left: 1,
             right: 1,
             child: Column(
@@ -93,8 +91,8 @@ class IDCard extends StatelessWidget {
               children: [
                 SizedBox(
                     height: (userType == "student" && user.firstNameEn == null)
-                        ? 60.h
-                        : 54.h),
+                        ? 55.h
+                        : 45.h),
                 Padding(
                   padding: EdgeInsets.only(right: 4.w),
                   child: Text(
@@ -124,7 +122,7 @@ class IDCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                SizedBox(height: 10.h),
+                SizedBox(height: 16.h),
                 CustomRow(
                   title: 'الرقم الوظيفي: ',
                   //typeEn: ':Employee ID ',
@@ -160,7 +158,6 @@ class IDCard extends StatelessWidget {
                   trailing: userType == "student"
                       ? user.collegeName ?? ''
                       : user.employeeDepartmentUnitName ?? '',
-                  isLast: true,
                   // infoEn: userType == "student"
                   //     ? user.collegeName ?? ''
                   //     : user.employeeDepartmentUnitName ?? '',

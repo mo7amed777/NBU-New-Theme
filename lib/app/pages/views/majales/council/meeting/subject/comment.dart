@@ -132,26 +132,33 @@ class _SubjectCommentState extends State<SubjectComment> {
             top: Get.height * 0.15,
             left: 16.0,
             right: 16.0,
-            child: TextField(
-              textInputAction: TextInputAction.send,
-              focusNode: fNode,
-              controller: _commentController,
-              onSubmitted: (comment) => addNewComment(comment: comment),
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.send,
+            child: Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(55),
+                side: BorderSide(color: colorBlackLighter, width: 1),
+              ),
+              child: TextField(
+                textInputAction: TextInputAction.send,
+                focusNode: fNode,
+                controller: _commentController,
+                onSubmitted: (comment) => addNewComment(comment: comment),
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.send,
+                    ),
+                    onPressed: () {
+                      addNewComment(comment: _commentController.text);
+                    },
                   ),
-                  onPressed: () {
-                    addNewComment(comment: _commentController.text);
-                  },
-                ),
-                filled: true,
-                hintText: ' اضافة تعليق جديد ... ',
-                fillColor: colorWhite,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                  borderSide: BorderSide.none,
+                  filled: true,
+                  hintText: ' اضافة تعليق جديد ... ',
+                  fillColor: colorWhite,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),

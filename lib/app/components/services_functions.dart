@@ -288,16 +288,16 @@ void loginSkillsRecord() async {
           'https://mahari.nbu.edu.sa/api/Account/LoginSSO?key1=$nId&key2=$userType',
     );
     await controller.getData();
-    if (controller.apiCallStatus == ApiCallStatus.success) {
+    if (controller.apiCallStatus == ApiCallStatus.success &&
+        controller.data['returnObject'] != null) {
       MySharedPref.setSkillsRecordToken(
           controller.data['returnObject']['token']);
 
       Get.to(() =>
           SkillsRecord(userID: controller.data['returnObject']['userId']));
+    } else {
+      CustomSnackBar.showCustomErrorSnackBar(
+          title: 'خطأ في الدخول', message: controller.data['arabicMessage']);
     }
-    // else {
-    //   CustomSnackBar.showCustomErrorSnackBar(
-    //       title: 'خطأ في الاتصال', message: "هذا المستخدم غير موجود");
-    // }
   });
 }

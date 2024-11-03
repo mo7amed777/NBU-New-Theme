@@ -41,10 +41,12 @@ class CustomRow extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  title,
-                  style: appTextStyle.copyWith(
-                    color: color ?? colorPrimary,
+                Expanded(
+                  child: Text(
+                    title,
+                    style: appTextStyle.copyWith(
+                      color: color ?? colorPrimary,
+                    ),
                   ),
                 ),
                 SizedBox(width: 10.w),

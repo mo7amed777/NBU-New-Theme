@@ -39,9 +39,6 @@ class _SettingsState extends State<Settings> {
       children: [
         Image.asset(
           'assets/images/settings_card.png',
-          fit: BoxFit.fill,
-          height: Get.height,
-          width: Get.width,
         ),
         Positioned(
           left: 0,

@@ -46,6 +46,7 @@ class _ChattingState extends State<Chatting> {
         .build();
 
     await connection?.start();
+    connection?.serverTimeoutInMilliseconds = 10000000;
 
     connection?.on('ReceiveMessage', (message) async {
       ChatMessage msg = ChatMessage.fromJson(message?.first);

@@ -14,7 +14,7 @@ class CustomButton extends StatelessWidget {
       {Key? key,
       required this.callBack,
       this.label,
-      this.padding = 5.0,
+      this.padding,
       this.icon,
       this.color,
       this.fontSize = 5.0})
@@ -30,10 +30,12 @@ class CustomButton extends StatelessWidget {
         foregroundColor: textColor ?? colorWhite,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
-      icon: Icon(
-        icon,
-        size: fontSize ?? 16.sp,
-      ),
+      icon: icon == null
+          ? null
+          : Icon(
+              icon,
+              size: fontSize ?? 16.sp,
+            ),
       iconAlignment: IconAlignment.end,
       label: child ??
           Text(
