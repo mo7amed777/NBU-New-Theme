@@ -43,10 +43,11 @@ class _ChattingState extends State<Chatting> {
                   HttpClient()..badCertificateCallback = (x, y, z) => true),
               withCredentials: true,
             ))
+        .withAutomaticReconnect()
         .build();
 
+    connection?.serverTimeoutInMilliseconds = 100000;
     await connection?.start();
-    connection?.serverTimeoutInMilliseconds = 10000000;
 
     connection?.on('ReceiveMessage', (message) async {
       ChatMessage msg = ChatMessage.fromJson(message?.first);
@@ -539,11 +540,12 @@ class _ChattingState extends State<Chatting> {
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     _scrollController.dispose();
     _textController.dispose();
     focusNode.dispose();
-    connection?.stop();
+    await connection?.stop();
+    connection = null; // Release the connection object
     super.dispose();
   }
 }

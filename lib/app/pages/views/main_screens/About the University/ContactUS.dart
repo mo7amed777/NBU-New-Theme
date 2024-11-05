@@ -15,7 +15,7 @@ class _ContactUSState extends State<ContactUS> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorWhiteLight,
+      backgroundColor: colorWhite,
       body: ListView(
         children: [
           Padding(

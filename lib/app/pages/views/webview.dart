@@ -48,7 +48,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
   }
 
   _buildOnlineView() {
-    late WebViewController controller;
     return IndexedStack(
       index: _stackToView,
       children: [

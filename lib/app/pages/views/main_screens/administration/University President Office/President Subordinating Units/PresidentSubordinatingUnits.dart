@@ -21,7 +21,7 @@ class PresidentSubordinatingUnits extends StatefulWidget {
 
 class _PresidentSubordinatingUnitsState
     extends State<PresidentSubordinatingUnits> {
-  List icons=[
+  List icons = [
     FontAwesomeIcons.userTie,
     FontAwesomeIcons.bookOpen,
     FontAwesomeIcons.users,
@@ -76,54 +76,50 @@ class _PresidentSubordinatingUnitsState
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(4.0)),
                               child: Card(
-
                                 elevation: 0.0,
                                 margin: EdgeInsets.all(8.sp),
                                 color: Colors.white,
-
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(
                                       Radius.circular(10)
-                                    // Adjust the bottom right border radius
-                                  ),
+                                      // Adjust the bottom right border radius
+                                      ),
                                   side: BorderSide(
-                                    color: Color(0xff337c3d), // Change this color to the desired border color
+                                    color: Color(
+                                        0xff337c3d), // Change this color to the desired border color
                                     // Change this value to the desired border width
                                   ),
-
                                 ),
-
                                 shadowColor: Color(0xff9ab83d),
-
                                 child: InkWell(
                                   onTap: () => callBack(items[index]!),
                                   child: Stack(
                                     alignment: Alignment.center,
                                     children: [
-                                      Image.asset('assets/images/pettrenback.png',height: Get.height,),
                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Container(
                                             width: 75,
                                             height: 75,
 
                                             decoration: BoxDecoration(
-
                                               border: Border.all(
-                                                color: Color(0xff9ab83d), // Change this color to the desired border color
-                                                width: 1.9, // Change this value to the desired border width
+                                                color: Color(
+                                                    0xff9ab83d), // Change this color to the desired border color
+                                                width:
+                                                    1.9, // Change this value to the desired border width
                                               ),
-
-                                              borderRadius: BorderRadius.circular(50.0),), // Optional: Add border radius for rounded corners
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                            ), // Optional: Add border radius for rounded corners
                                             child: Icon(
                                               icons[index]!,
                                               size: 28.sp,
                                               color: Color(0xff217445),
-
-                                            ),),
-
+                                            ),
+                                          ),
                                           SizedBox(
                                             height: 16.h,
                                           ),
@@ -133,10 +129,7 @@ class _PresidentSubordinatingUnitsState
                                             style: TextStyle(
                                                 color: Color(0xff659d43),
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 12.sp
-
-
-                                            ),
+                                                fontSize: 12.sp),
                                           ),
                                         ],
                                       ),
@@ -160,7 +153,6 @@ class _PresidentSubordinatingUnitsState
   }
 
   void callBack(String key) async {
-
     switch (key) {
       case 'مكتب المستشارون':
         Get.to(() => AdvisorsOffice(title: 'مكتب المستشارون'));
@@ -169,13 +161,15 @@ class _PresidentSubordinatingUnitsState
         Get.to(() => ProjectManagementOffice(title: 'مكتب إدارة المشاريع'));
         break;
       case 'وحدة مراقبة الموارد الذاتية':
-        Get.to(() => SelfGeneratedResourcesMonitoringUnit(title: 'وحدة مراقبة الموارد الذاتية'));
+        Get.to(() => SelfGeneratedResourcesMonitoringUnit(
+            title: 'وحدة مراقبة الموارد الذاتية'));
         break;
       case 'وحدة إدارة المخاطر':
         Get.to(() => RiskManagementUnit(title: 'وحدة إدارة المخاطر'));
         break;
       case 'الإدارة العامة للتخطيط الإستراتيجي وتحقيق الرؤية':
-        Get.to(() => GeneralAdministration(title: 'الإدارة العامة للتخطيط الإستراتيجي'));
+        Get.to(() =>
+            GeneralAdministration(title: 'الإدارة العامة للتخطيط الإستراتيجي'));
         break;
       case 'وحدة دعم اتخاذ القرار':
         Get.to(() => DecisionSupport(title: 'وحدة دعم اتخاذ القرار'));

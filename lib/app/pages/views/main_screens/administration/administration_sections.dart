@@ -17,15 +17,14 @@ class Administrations extends StatefulWidget {
 
 class _AdministrationsState extends State<Administrations> {
   List items = [
-    'رئيس الجامعة' ,
+    'رئيس الجامعة',
     'مكتب رئيس الجامعة',
-    'المنسوبون' ,
+    'المنسوبون',
   ];
-  List icons=[
+  List icons = [
     FontAwesomeIcons.userTie,
     FontAwesomeIcons.peopleRoof,
     FontAwesomeIcons.users,
-
   ];
   bool multiple = true;
   @override
@@ -38,7 +37,6 @@ class _AdministrationsState extends State<Administrations> {
               padding: const EdgeInsets.only(bottom: 16.0),
               child: Appbar(
                 title: 'إدارة الجامعة'.tr,
-                
               ),
             ),
             Padding(
@@ -66,76 +64,71 @@ class _AdministrationsState extends State<Administrations> {
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(4.0)),
                               child: Card(
-
                                 elevation: 0.0,
-                              margin: EdgeInsets.all(8.sp),
+                                margin: EdgeInsets.all(8.sp),
                                 color: Colors.white,
-                                 shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10)
-                                // Adjust the bottom right border radius
-                              ),
-                              side: BorderSide(
-                                color: Color(0xff337c3d), // Change this color to the desired border color
-                                 // Change this value to the desired border width
-                              ),
-
-                             ),
-
-                                shadowColor: Color(0xff9ab83d),
-
-                                child: InkWell(
-                              onTap: () => callBack(items[index]!),
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Image.asset('assets/images/pettrenback.png',height: Get.height,fit: BoxFit.fill,),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-
-                                    children: [
-                                      Container(
-                                        width: 75,
-                                        height: 75,
-
-                                        decoration: BoxDecoration(
-
-                                          border: Border.all(
-                                            color: Color(0xff9ab83d), // Change this color to the desired border color
-                                            width: 1.9, // Change this value to the desired border width
-                                          ),
-
-                                          borderRadius: BorderRadius.circular(50.0),), // Optional: Add border radius for rounded corners
-                                        child: Icon(
-                                                      icons[index]!,
-                                          size: 28.sp,
-                                          color: Color(0xff217445),
-
-                                        ),),
-
-                                      SizedBox(
-                                        height: 16.h,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(10)
+                                      // Adjust the bottom right border radius
                                       ),
-                                      Text(
-                                                      items[index]!,
-                                        style: TextStyle(
-                                            color: Color(0xff659d43),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18
+                                  side: BorderSide(
+                                    color: Color(
+                                        0xff337c3d), // Change this color to the desired border color
+                                    // Change this value to the desired border width
+                                  ),
+                                ),
+                                shadowColor: Color(0xff9ab83d),
+                                child: InkWell(
+                                  onTap: () => callBack(items[index]!),
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: 75,
+                                            height: 75,
 
-
-                                        ),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Color(
+                                                    0xff9ab83d), // Change this color to the desired border color
+                                                width:
+                                                    1.9, // Change this value to the desired border width
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                            ), // Optional: Add border radius for rounded corners
+                                            child: Icon(
+                                              icons[index]!,
+                                              size: 28.sp,
+                                              color: Color(0xff217445),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 16.h,
+                                          ),
+                                          Text(
+                                            items[index]!,
+                                            style: TextStyle(
+                                                color: Color(0xff659d43),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ],
+                                ),
                               ),
-                                                            ),
-                                                            ),
+                            ),
                           ),
                         ),
                       ),
-                    ),);
+                    );
                   },
                 ),
               ),
@@ -147,7 +140,6 @@ class _AdministrationsState extends State<Administrations> {
   }
 
   void callBack(String key) async {
-
     switch (key) {
       case 'رئيس الجامعة':
         Get.to(ProfM_AlShihri());
@@ -158,7 +150,6 @@ class _AdministrationsState extends State<Administrations> {
       case 'المنسوبون':
         Get.to(OfficeMembers());
         break;
-
     }
   }
 }

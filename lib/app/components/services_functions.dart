@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:eservices/app/components/custom_loading_overlay.dart';
+import 'package:eservices/app/data/models/users/student.dart';
 import 'package:eservices/app/pages/views/academic/schedule.dart';
 import 'package:eservices/app/pages/views/majales/majales_home.dart';
 import 'package:eservices/app/pages/views/majales/pdf_viewer.dart';
+import 'package:eservices/app/pages/views/print_card.dart';
 import 'package:eservices/app/pages/views/skills_record/skills_record.dart';
 import 'package:eservices/app/pages/views/support_me/support_me.dart';
 import 'package:flutter/material.dart';
@@ -246,16 +248,16 @@ void loginSupportMe({required String userID}) async {
     APIController controller = APIController(
         url: 'https://crm.nbu.edu.sa/api/Account/LoginSSO',
         requestType: RequestType.post,
-        // body: {
-        //   "email": userData['encemail'],
-        //   "nid": userData['encID'],
-        //   "role": userData['encRole'],
-        // });
         body: {
-          'email': 'UrrLNFmXvaqMgTDtwhGI7w,,',
-          'nid': 'y5QL51sVSxtNrXFCpJobAg,,',
-          'role': 'HvmQH9ie_P6SA5jU9o2oeA,,',
+          "email": userData['encemail'],
+          "nid": userData['encID'],
+          "role": userData['encRole'],
         });
+    // body: {
+    //   'email': 'UrrLNFmXvaqMgTDtwhGI7w,,',
+    //   'nid': 'y5QL51sVSxtNrXFCpJobAg,,',
+    //   'role': 'HvmQH9ie_P6SA5jU9o2oeA,,',
+    // });
     try {
       await controller.getData();
       if (controller.apiCallStatus == ApiCallStatus.success &&
@@ -298,6 +300,66 @@ void loginSkillsRecord() async {
     } else {
       CustomSnackBar.showCustomErrorSnackBar(
           title: 'خطأ في الدخول', message: controller.data['arabicMessage']);
+    }
+  });
+}
+
+int getBranchId(List branches, String branch) {
+  for (int i = 0; i < branches.length; i++) {
+    if (branches[i]['name'] == branch) {
+      return branches[i]['id'];
+    }
+  }
+  return 0;
+}
+
+void printCard(Student user) async {
+  List bloodTypes = [];
+  List branches = [];
+  Map userData = {};
+  int branchId = 0;
+  await showLoadingOverlay(asyncFunction: () async {
+    APIController controller = APIController(
+      url: "https://apptest2.nbu.edu.sa/api/StudentMobile/GetBloodType",
+    );
+    await controller.getData();
+    if (controller.apiCallStatus == ApiCallStatus.success) {
+      bloodTypes = controller.data['returnObject'];
+      controller = APIController(
+        url:
+            "https://apptest2.nbu.edu.sa/api/StudentMobile/GetStudentByNid?nid=${user.nid}",
+      );
+      await controller.getData();
+      if (controller.apiCallStatus == ApiCallStatus.success) {
+        if (controller.data['returnObject'] != null) {
+          userData = controller.data['returnObject'];
+        } else {
+          controller = APIController(
+            url: "https://apptest2.nbu.edu.sa/api/StudentMobile/GetBranches",
+          );
+          await controller.getData();
+          if (controller.apiCallStatus == ApiCallStatus.success) {
+            branches = controller.data['returnObject'];
+            branchId = getBranchId(branches, user.campName!);
+          } else {
+            CustomSnackBar.showCustomErrorSnackBar(
+                title: 'فشل', message: controller.data['arabicMessage']);
+            return;
+          }
+        }
+      } else {
+        CustomSnackBar.showCustomErrorSnackBar(
+            title: 'فشل', message: controller.data['arabicMessage']);
+        return;
+      }
+
+      Get.to(
+        PrintCard(branchId: branchId, bloodTypes: bloodTypes, user: userData),
+      );
+    } else {
+      CustomSnackBar.showCustomErrorSnackBar(
+          title: 'فشل', message: controller.data['arabicMessage']);
+      return;
     }
   });
 }

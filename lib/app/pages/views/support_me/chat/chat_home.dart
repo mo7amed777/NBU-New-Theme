@@ -49,10 +49,11 @@ class _ChatsState extends State<Chats> {
                   HttpClient()..badCertificateCallback = (x, y, z) => true),
               withCredentials: true,
             ))
+        .withAutomaticReconnect()
         .build();
 
+    connection?.serverTimeoutInMilliseconds = 100000;
     await connection?.start();
-    connection?.serverTimeoutInMilliseconds = 1000000;
 
     connection?.on('ReceiveMessage', (message) async {
       if (message != null) {
@@ -129,8 +130,9 @@ class _ChatsState extends State<Chats> {
   }
 
   @override
-  void dispose() {
-    connection?.stop();
+  void dispose() async {
+    await connection?.stop();
+    connection = null;
     super.dispose();
   }
 

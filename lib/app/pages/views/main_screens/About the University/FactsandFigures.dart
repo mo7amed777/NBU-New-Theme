@@ -16,6 +16,7 @@ class _FactsandFiguresState extends State<FactsandFigures> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: colorWhite,
       body: Column(
         children: [
           Padding(
@@ -49,40 +50,30 @@ class _FactsandFiguresState extends State<FactsandFigures> {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
             side: BorderSide(
-              color: Color(0xff9ab83d),
+              color: colorLightGreen,
             )),
         elevation: 0.0,
-        child: Stack(
-          alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/images/pettrenback.png',
-              height: Get.height,
-              fit: BoxFit.fill,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(title,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: colorBlackLight,
+                      fontSize: 16.sp)),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(title,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: colorPrimaryLight,
-                          fontSize: 16.sp)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(number.toString(),
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: colorPrimary,
-                          fontSize: 18.sp)),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(number.toString(),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: colorPrimary,
+                      fontSize: 18.sp)),
             ),
           ],
         ),

@@ -39,7 +39,7 @@ class HomeBody extends StatelessWidget {
     required this.userType,
   });
 
-  final TextEditingController _searchController = TextEditingController();
+  // final TextEditingController _searchController = TextEditingController();
 
   void getAllServices() {
     for (List<String> appService in appServicesChips) {
@@ -58,6 +58,7 @@ class HomeBody extends StatelessWidget {
       0 => Column(
           children: [
             appBarSection(image, user),
+            SizedBox(height: 10.h),
             homeContent(),
           ],
         ),
@@ -66,7 +67,10 @@ class HomeBody extends StatelessWidget {
           userType: userType,
           image: image,
         ),
-      2 => Settings(),
+      2 => Settings(
+          user: user,
+          type: userType,
+        ),
       int() => Container(),
     });
   }
@@ -83,20 +87,39 @@ class HomeBody extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           servicesCards(userID),
-          SizedBox(height: 20.h),
+          SizedBox(height: 24.h),
           sectionTitle(
             title: "الخدمات الاكاديمية",
             onViewAll: () => Get.to(Academic(userID: userID)),
           ),
           SizedBox(height: 10.h),
           academicCards(userID, academicServices, false),
-          SizedBox(height: 20.h),
-          sectionTitle(
-            title: "الموارد البشرية",
-            onViewAll: () => Get.to(Hr(userID: userID)),
-          ),
-          SizedBox(height: 10.h),
-          academicCards(userID, hrServices, true),
+          SizedBox(height: 24.h),
+          if (userType != "student") ...[
+            sectionTitle(
+              title: "الموارد البشرية",
+              onViewAll: () => Get.to(Hr(userID: userID)),
+            ),
+            SizedBox(height: 10.h),
+            academicCards(userID, hrServices, true),
+          ] else ...[
+            Text('خدمات أخرى', style: appTextStyle),
+            SizedBox(height: 10.h),
+            MyCard(
+              title: 'طباعة البطاقة',
+              subTitle: 'طباعة بطاقة الطالب الجامعي',
+              desc: 'طباعة بطاقة بيانات الطالب الجامعي',
+              icon: FontAwesomeIcons.solidIdCard,
+              chips: const [
+                'طباعة',
+                'البطاقة',
+                'الطالب',
+              ],
+              onTap: () => printCard(user),
+              margin: EdgeInsets.all(8.sp),
+              fullWidth: true,
+            )
+          ],
           SizedBox(height: 10.h),
         ],
       ),
@@ -105,126 +128,130 @@ class HomeBody extends StatelessWidget {
 
   Widget appBarSection(image, user) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(12.sp),
+      width: Get.width,
       color: colorPrimary,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Container(
-                height: 48.h,
-                width: 48.w,
-                clipBehavior: Clip.antiAlias,
-                decoration: const BoxDecoration(shape: BoxShape.circle),
-                child: image == null
-                    ? CircleAvatar(
-                        backgroundImage: AssetImage(((user is Student)
-                                ? user.gender == "F"
-                                : user.sexTypeName != "ذكر")
-                            ? 'assets/images/female.png'
-                            : 'assets/images/male.png'),
-                        radius: 45,
-                      )
-                    : CircleAvatar(
-                        backgroundImage: MemoryImage(
-                          image,
+          SizedBox(height: 10.h),
+
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: image == null
+                      ? CircleAvatar(
+                          backgroundImage: AssetImage(((user is Student)
+                                  ? user.gender == "F"
+                                  : user.sexTypeName != "ذكر")
+                              ? 'assets/images/female.png'
+                              : 'assets/images/male.png'),
+                          radius: 30.sp,
+                        )
+                      : CircleAvatar(
+                          backgroundImage: MemoryImage(
+                            image,
+                          ),
+                          radius: 30.sp,
                         ),
-                        radius: 22.sp,
-                      ),
-              ),
-              SizedBox(width: 8.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    isMorningDate() ? "صباح الخير " : "مساء الخير ",
-                    style: smallTitleStyle.copyWith(color: colorWhite),
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    (user is Student)
-                        ? '${user.firstNameAr ?? ''} ${user.midNameAr ?? ''} ${user.lastNameAr ?? ''}'
-                        : user?.arabicName ?? "غير معروف",
-                    style: smallTitleStyle.copyWith(color: colorWhite),
-                  ),
-                ],
-              ),
-              Spacer(),
-              IconButton(
-                onPressed: () {
-                  // Get.to(const NotificationScreen());
-                },
-                icon: Icon(
-                  FontAwesomeIcons.solidBell,
-                  color: colorWhite,
-                  size: 20.sp,
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 20.h),
-          GetBuilder<SearchingController>(
-            init: SearchingController(),
-            builder: (controller) => Container(
-              height: 45.h,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: colorBlackLighter,
-                ),
-                borderRadius: BorderRadius.circular(50).r,
-              ),
-              child: Center(
-                child: TextField(
-                  controller: _searchController,
-                  style: appTextStyle.copyWith(
-                    color: colorWhite,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: " بـحــث",
-                    contentPadding: EdgeInsets.only(right: 12.w, top: 8.h),
-                    hintStyle: appTextStyle.copyWith(
-                      color: colorWhiteLight,
+                SizedBox(width: 8.w),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      isMorningDate() ? "صباح الخير " : "مساء الخير ",
+                      style: appTextStyle.copyWith(color: colorWhite),
                     ),
-                    border: InputBorder.none,
-                    suffixIcon: IconButton(
-                      onPressed: () =>
-                          controller.onSearch(_searchController.text),
-                      icon: Icon(FontAwesomeIcons.magnifyingGlass,
-                          color: colorWhite, size: 18.sp),
+                    SizedBox(height: 2.h),
+                    Text(
+                      (user is Student)
+                          ? '${user.firstNameAr ?? ''} ${user.midNameAr ?? ''} ${user.lastNameAr ?? ''}'
+                          : user?.arabicName ?? "مستخدم غير معروف",
+                      style: mediumTitleStyle.copyWith(color: colorWhite),
                     ),
-                  ),
-                  onChanged: (value) =>
-                      controller.onSearch(value, isChanged: true),
+                  ],
                 ),
-              ),
+                // Spacer(),
+                // IconButton(
+                //   onPressed: () {
+                //     // Get.to(const NotificationScreen());
+                //   },
+                //   icon: Icon(
+                //     FontAwesomeIcons.solidBell,
+                //     color: colorWhite,
+                //     size: 20.sp,
+                //   ),
+                // ),
+              ],
             ),
           ),
-          GetBuilder<SearchingController>(
-              init: SearchingController(),
-              builder: (controller) => controller.showResults.value
-                  ? ListView.builder(
-                      itemCount: controller.searchList.length,
-                      padding: EdgeInsets.all(8.sp),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) => InkWell(
-                        onTap: () => controller
-                            .onSearchResult(controller.searchList[index]),
-                        child: Padding(
-                          padding: EdgeInsets.all(8.sp),
-                          child: Center(
-                            child: Text(
-                              controller.searchList[index],
-                              style: appTextStyle.copyWith(
-                                color: colorWhite,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : SizedBox.shrink())
+          SizedBox(height: 10.h),
+          // GetBuilder<SearchingController>(
+          //   init: SearchingController(),
+          //   builder: (controller) => Container(
+          //     height: 45.h,
+          //     decoration: BoxDecoration(
+          //       border: Border.all(
+          //         color: colorBlackLighter,
+          //       ),
+          //       borderRadius: BorderRadius.circular(50).r,
+          //     ),
+          //     child: Center(
+          //       child: TextField(
+          //         controller: _searchController,
+          //         style: appTextStyle.copyWith(
+          //           color: colorWhite,
+          //         ),
+          //         decoration: InputDecoration(
+          //           hintText: " بـحــث",
+          //           contentPadding: EdgeInsets.only(right: 12.w, top: 8.h),
+          //           hintStyle: appTextStyle.copyWith(
+          //             color: colorWhiteLight,
+          //           ),
+          //           border: InputBorder.none,
+          //           suffixIcon: IconButton(
+          //             onPressed: () =>
+          //                 controller.onSearch(_searchController.text),
+          //             icon: Icon(FontAwesomeIcons.magnifyingGlass,
+          //                 color: colorWhite, size: 18.sp),
+          //           ),
+          //         ),
+          //         onChanged: (value) =>
+          //             controller.onSearch(value, isChanged: true),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // GetBuilder<SearchingController>(
+          //     init: SearchingController(),
+          //     builder: (controller) => controller.showResults.value
+          //         ? ListView.builder(
+          //             itemCount: controller.searchList.length,
+          //             padding: EdgeInsets.all(8.sp),
+          //             shrinkWrap: true,
+          //             scrollDirection: Axis.vertical,
+          //             itemBuilder: (context, index) => InkWell(
+          //               onTap: () => controller
+          //                   .onSearchResult(controller.searchList[index]),
+          //               child: Padding(
+          //                 padding: EdgeInsets.all(8.sp),
+          //                 child: Center(
+          //                   child: Text(
+          //                     controller.searchList[index],
+          //                     style: appTextStyle.copyWith(
+          //                       color: colorWhite,
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ),
+          //             ),
+          //           )
+          //         : SizedBox.shrink())
         ],
       ),
     );
@@ -235,7 +262,7 @@ class HomeBody extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: appTitleStyle),
+        Text(title, style: appTextStyle),
         TextButton(
           onPressed: onViewAll,
           child: Text(

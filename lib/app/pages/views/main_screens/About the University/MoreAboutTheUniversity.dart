@@ -1,8 +1,12 @@
+import 'package:eservices/app/components/mycard.dart';
 import 'package:eservices/app/pages/views/main_screens/About%20the%20University/ContactUS.dart';
 import 'package:eservices/app/pages/views/main_screens/About%20the%20University/FactsandFigures.dart';
 import 'package:eservices/app/pages/views/main_screens/About%20the%20University/University%20Council/UniversityCouncil.dart';
 import 'package:eservices/app/pages/views/main_screens/About%20the%20University/University%20Council/appbar.dart';
 import 'package:eservices/app/pages/views/main_screens/About%20the%20University/VisionandGoals.dart';
+import 'package:eservices/config/const.dart';
+import 'package:eservices/config/theme/app_colors.dart';
+import 'package:eservices/config/theme/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -17,138 +21,75 @@ class MoreAboutTheUniversity extends StatefulWidget {
 }
 
 class _MoreAboutTheUniversityState extends State<MoreAboutTheUniversity> {
-
-  List icons=[
-    FontAwesomeIcons.eye,
-    FontAwesomeIcons.peopleRoof,
-    FontAwesomeIcons.chartLine,
-    FontAwesomeIcons.phone,
-
-  ];
-  List items = [
-    'الرؤية والرسالة والأهداف',
-    'مجلس الجامعة',
-    'المرصد الجامعي',
-    'اتصل بنا',
-  ];
-  bool multiple = true;
   @override
   Widget build(BuildContext context) {
+    int index = 0;
+
     return Scaffold(
-      body: AnimationLimiter(
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 32.0),
-              child: Appbar(
-                title: 'عن الجامعة',
-                
-              ),
+      backgroundColor: colorWhite,
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Padding(
+              padding: EdgeInsets.only(
+                  top: Get.height * 0.15, left: 8.w, right: 8.w),
+              child: SizedBox(
+                height: Get.height,
+                child: AnimationLimiter(
+                  child: GridView(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 2.5,
+                        mainAxisSpacing: 5.sp,
+                        crossAxisCount: 1),
+                    physics: BouncingScrollPhysics(),
+                    children: aboutUniversity.entries.map(
+                      (entry) {
+                        return AnimationConfiguration.staggeredGrid(
+                            position: index,
+                            duration: const Duration(milliseconds: 600),
+                            columnCount: 2,
+                            child: ScaleAnimation(
+                                child: FadeInAnimation(
+                                    child: MyCard(
+                              title: entry.key.keys.first,
+                              desc: entry.key.values.first,
+                              icon: entry.value.values.first,
+                              subTitle: entry.value.keys.first,
+                              chips: chipAboutUniversity[index++],
+                              onTap: () {
+                                callBack(entry.key.keys.first);
+                              },
+                            ))));
+                      },
+                    ).toList(),
+                  ),
+                ),
+              )),
+          Positioned(
+            top: Get.height * 0.065,
+            left: 8.w,
+            child: IconButton(
+              icon: Icon(Icons.arrow_forward_ios),
+              onPressed: () => Get.back(),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GridView.count(
-                physics: NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                crossAxisCount: 2,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
-                shrinkWrap: true,
-                childAspectRatio: 1,
-                children: List.generate(
-                  items.length,
-                  (int index) {
-                    return AnimationConfiguration.staggeredGrid(
-                      position: index,
-                      duration: const Duration(milliseconds: 1000),
-                      columnCount: 2,
-                      child: ScaleAnimation(
-                        child: FadeInAnimation(
-                          child: AspectRatio(
-                            aspectRatio: 1.5,
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(4.0)),
-                              child: Card(
-
-                                elevation: 0.0,
-                                margin: EdgeInsets.all(8.sp),
-                                color: Colors.white,
-
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(10)
-                                    // Adjust the bottom right border radius
-                                  ),
-                                  side: BorderSide(
-                                    color: Color(0xff337c3d), // Change this color to the desired border color
-                                    // Change this value to the desired border width
-                                  ),
-
-                                ),
-
-                                shadowColor: Color(0xff9ab83d),
-
-                                child: InkWell(
-                                  onTap: () => callBack(items[index]!),
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Image.asset('assets/images/pettrenback.png',height: Get.height,fit: BoxFit.fill,),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-
-                                        children: [
-                                          Container(
-                                            width: 75,
-                                            height: 75,
-
-                                            decoration: BoxDecoration(
-
-                                              border: Border.all(
-                                                color: Color(0xff9ab83d), // Change this color to the desired border color
-                                                width: 1.9, // Change this value to the desired border width
-                                              ),
-
-                                              borderRadius: BorderRadius.circular(50.0),), // Optional: Add border radius for rounded corners
-                                            child: Icon(
-                                              icons[index]!,
-                                              size: 28.sp,
-                                              color: Color(0xff217445),
-
-                                            ),),
-
-                                          SizedBox(
-                                            height: 16.h,
-                                          ),
-                                          Text(
-                                            items[index]!,
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Color(0xff659d43),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 12.sp
-
-
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
+          ),
+          Positioned(
+            top: Get.height * 0.07,
+            child: Center(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 16.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.r),
+                  color: colorPrimary,
+                ),
+                child: Text(
+                  'المزيد عن الجامعة',
+                  style: largeTitleStyle.copyWith(color: colorWhite),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -35,6 +35,8 @@ bool isDark = false;
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
+    print(widget.type);
+
     return Stack(
       children: [
         Image.asset(
@@ -61,16 +63,7 @@ class _SettingsState extends State<Settings> {
                       RestartWidget.restartApp(context);
                     });
                   }),
-              SizedBox(height: 12.h),
-              if (widget.type == "student")
-                CustomRow(
-                  icon: FontAwesomeIcons.idCard,
-                  color: colorWhite,
-                  padding: EdgeInsets.symmetric(horizontal: 32.w),
-                  title: 'طباعة البطاقة',
-                  onTap: () => printCard(),
-                ),
-              SizedBox(height: 12.h),
+              SizedBox(height: 24.h),
               CustomRow(
                 icon: FontAwesomeIcons.share,
                 color: colorWhite,
@@ -122,66 +115,6 @@ class _SettingsState extends State<Settings> {
       CustomSnackBar.showCustomErrorToast(
           message: 'حدث خطأ في المشاركة برجاء المحاولة في وقت لاحق');
     }
-  }
-
-  void printCard() async {
-    List bloodTypes = [];
-    List branches = [];
-    Map userData = {};
-    int branchId = 0;
-    await showLoadingOverlay(asyncFunction: () async {
-      APIController controller = APIController(
-        url: "https://apptest2.nbu.edu.sa/api/StudentMobile/GetBloodType",
-      );
-      await controller.getData();
-      if (controller.apiCallStatus == ApiCallStatus.success) {
-        bloodTypes = controller.data['returnObject'];
-        controller = APIController(
-          url:
-              "https://apptest2.nbu.edu.sa/api/StudentMobile/GetStudentByNid?nid=${widget.user!.nid}",
-        );
-        await controller.getData();
-        if (controller.apiCallStatus == ApiCallStatus.success) {
-          if (controller.data['returnObject'] != null) {
-            userData = controller.data['returnObject'];
-          } else {
-            controller = APIController(
-              url: "https://apptest2.nbu.edu.sa/api/StudentMobile/GetBranches",
-            );
-            await controller.getData();
-            if (controller.apiCallStatus == ApiCallStatus.success) {
-              branches = controller.data['returnObject'];
-              branchId = getBranchId(branches, widget.user!.campName!);
-            } else {
-              CustomSnackBar.showCustomErrorSnackBar(
-                  title: 'فشل', message: controller.data['arabicMessage']);
-              return;
-            }
-          }
-        } else {
-          CustomSnackBar.showCustomErrorSnackBar(
-              title: 'فشل', message: controller.data['arabicMessage']);
-          return;
-        }
-
-        Get.to(
-          PrintCard(branchId: branchId, bloodTypes: bloodTypes, user: userData),
-        );
-      } else {
-        CustomSnackBar.showCustomErrorSnackBar(
-            title: 'فشل', message: controller.data['arabicMessage']);
-        return;
-      }
-    });
-  }
-
-  int getBranchId(List branches, String branch) {
-    for (int i = 0; i < branches.length; i++) {
-      if (branches[i]['name'] == branch) {
-        return branches[i]['id'];
-      }
-    }
-    return 0;
   }
 
   Future logoutDialog(context) async {

@@ -68,7 +68,7 @@ class _ExpandedTileState extends State<ExpandedTile> {
                   widget.CourseDate ?? '',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: colorPrimaryLighter,
+                    color: colorBlackLight,
                     fontSize: 10.sp,
                   ),
                 ),
@@ -91,7 +91,7 @@ class _ExpandedTileState extends State<ExpandedTile> {
               title: Text(
                 widget.title ?? '',
                 style: TextStyle(
-                  color: colorPrimaryLight,
+                  color: colorLightGreen,
                   fontWeight: FontWeight.bold,
                   overflow: TextOverflow.fade,
                   fontSize: 10.sp,

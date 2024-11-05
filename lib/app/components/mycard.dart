@@ -41,7 +41,7 @@ class MyCard extends StatelessWidget {
       child: Container(
         width: fullWidth ? Get.width : Get.width * 0.75,
         margin: margin ?? EdgeInsets.only(right: 8.w),
-        padding: EdgeInsets.all(12.r),
+        padding: EdgeInsets.all(12.sp),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.r),
           border: Border.all(color: colorPrimaryLighter, width: 2),

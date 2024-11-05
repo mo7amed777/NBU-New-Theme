@@ -1,10 +1,12 @@
+import 'package:eservices/app/components/mycard.dart';
 import 'package:eservices/app/pages/views/main_screens/About%20the%20University/AboutTheUniversity.dart';
 import 'package:eservices/app/pages/views/main_screens/About%20the%20University/ContactUS.dart';
-import 'package:eservices/app/pages/views/main_screens/About%20the%20University/University%20Council/appbar.dart';
 import 'package:eservices/app/pages/views/main_screens/Administration/administration_sections.dart';
+import 'package:eservices/config/const.dart';
 import 'package:eservices/config/theme/app_colors.dart';
+import 'package:eservices/config/theme/app_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -14,125 +16,90 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> with TickerProviderStateMixin {
-  AnimationController? animationController;
-
-  @override
-  void initState() {
-    animationController = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
-    super.initState();
-  }
-
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
-    return true;
-  }
-
-  @override
-  void dispose() {
-    animationController?.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    int index = 0;
+
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding:
-                  EdgeInsets.only(top: MediaQuery.of(context).padding.top + 6),
-              child: Appbar(
-                title: 'الصفحة الرئيسية'.tr,
+      backgroundColor: colorWhite,
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Padding(
+              padding: EdgeInsets.only(
+                  top: Get.height * 0.15, left: 8.w, right: 8.w),
+              child: SizedBox(
+                height: Get.height,
+                child: AnimationLimiter(
+                  child: GridView(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 2.5,
+                        mainAxisSpacing: 5.sp,
+                        crossAxisCount: 1),
+                    physics: BouncingScrollPhysics(),
+                    children: homeUniversity.entries.map(
+                      (entry) {
+                        return AnimationConfiguration.staggeredGrid(
+                            position: index,
+                            duration: const Duration(milliseconds: 600),
+                            columnCount: 1,
+                            child: ScaleAnimation(
+                                child: FadeInAnimation(
+                                    child: MyCard(
+                              title: entry.key.keys.first,
+                              desc: entry.key.values.first,
+                              icon: entry.value.values.first,
+                              subTitle: entry.value.keys.first,
+                              chips: chipHomeUniversity[index++],
+                              onTap: () {
+                                openUniversityPage(entry.key.keys.first);
+                              },
+                            ))));
+                      },
+                    ).toList(),
+                  ),
+                ),
+              )),
+          Positioned(
+            top: Get.height * 0.065,
+            left: 8.w,
+            child: IconButton(
+              icon: Icon(Icons.arrow_forward_ios),
+              onPressed: () => Get.back(),
+            ),
+          ),
+          Positioned(
+            top: Get.height * 0.07,
+            child: Center(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 16.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.r),
+                  color: colorPrimary,
+                ),
+                child: Text(
+                  'البوابة الجامعية',
+                  style: largeTitleStyle.copyWith(color: colorWhite),
+                ),
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: _buildDashboardGrid(),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildButton(
-      {Widget? icon, String? label, required Function callback}) {
-    return InkWell(
-      onTap: () => callback(),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 45,
-              backgroundColor: colorPrimary,
-              child: icon,
-            ),
-            Padding(
-              padding: EdgeInsets.all(16.sp),
-              child: Text(
-                label!,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDashboardGrid() {
-    return GridView.count(
-      padding: EdgeInsets.symmetric(
-        horizontal: 32.w,
-        vertical: 8.h,
-      ),
-      crossAxisSpacing: 5,
-      childAspectRatio: 16 / 9,
-      crossAxisCount: 1,
-      mainAxisSpacing: 10.h,
-      children: [
-        _buildButton(
-          icon: Icon(
-            FontAwesomeIcons.buildingColumns,
-            size: 30.sp,
-            color: colorWhiteLight,
-          ),
-          label: 'إدارة الجامعة',
-          callback: () {
-            Get.to(Administrations());
-          },
-        ),
-        _buildButton(
-          icon: Icon(
-            FontAwesomeIcons.message,
-            size: 30.sp,
-            color: colorWhiteLight,
-          ),
-          label: 'عن الجامعة'.tr,
-          callback: () {
-            Get.to(AboutTheUniversity());
-          },
-        ),
-        _buildButton(
-          icon: Icon(
-            FontAwesomeIcons.phoneFlip,
-            size: 30.sp,
-            color: colorWhiteLight,
-          ),
-          label: 'اتصل بنا'.tr,
-          callback: () {
-            Get.to(ContactUS());
-          },
-        ),
-      ],
-    );
+  void openUniversityPage(String pageName) {
+    switch (pageName) {
+      case 'إدارة الجامعة':
+        Get.to(Administrations());
+        break;
+      case 'عن الجامعة':
+        Get.to(AboutTheUniversity());
+        break;
+      case 'اتصل بنا':
+        Get.to(ContactUS());
+        break;
+    }
   }
 }

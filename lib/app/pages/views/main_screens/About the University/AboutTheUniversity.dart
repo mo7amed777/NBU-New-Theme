@@ -66,14 +66,12 @@ class _AboutTheUniversityState extends State<AboutTheUniversity> {
                     children: [
                       Text(
                         'المزيد'.tr,
-                        style: TextStyle(
-                            color: colorPrimaryLight,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12.sp),
+                        style:
+                            TextStyle(color: colorLightGreen, fontSize: 10.sp),
                       ),
                       Icon(
                         Icons.keyboard_double_arrow_left,
-                        color: colorPrimaryLight,
+                        color: colorLightGreen,
                       ),
                     ],
                   ),
@@ -124,33 +122,34 @@ class _AboutTheUniversityState extends State<AboutTheUniversity> {
 
 TimelineModel timelineModel(String title, String subtitle) {
   return TimelineModel(
-      Card(
-        elevation: 0.0,
-        child: Padding(
-          padding: EdgeInsets.all(8.sp),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: 8.h),
-                child: Text(title,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: colorPrimary,
-                        fontSize: 18.sp)),
-              ),
-              Text(subtitle,
+    Card(
+      elevation: 0.0,
+      child: Padding(
+        padding: EdgeInsets.all(8.sp),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 8.h),
+              child: Text(title,
                   style: TextStyle(
-                      fontSize: 14.sp,
-                      color: colorBlackLight,
-                      overflow: TextOverflow.fade)),
-            ],
-          ),
+                      fontWeight: FontWeight.bold,
+                      color: colorPrimary,
+                      fontSize: 18.sp)),
+            ),
+            Text(subtitle,
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    color: colorBlackLight,
+                    overflow: TextOverflow.fade)),
+          ],
         ),
       ),
-      icon: Icon(
-        Icons.history,
-        color: colorWhite,
-      ),
-      iconBackground: colorPrimaryLight);
+    ),
+    icon: Icon(
+      Icons.history,
+      color: colorWhite,
+    ),
+    iconBackground: colorBlackLight,
+  );
 }

@@ -74,16 +74,13 @@ class _UniversityPresidentOfficeState extends State<UniversityPresidentOffice> {
                   child: Row(
                     children: [
                       Text(
-                        'عرض المزيد',
-                        style: TextStyle(
-                            color: colorPrimaryLight,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14.sp),
+                        'المزيد'.tr,
+                        style:
+                            TextStyle(color: colorLightGreen, fontSize: 10.sp),
                       ),
                       Icon(
                         Icons.keyboard_double_arrow_left,
-                        color: colorPrimaryLight,
-                        size: 20.sp,
+                        color: colorLightGreen,
                       ),
                     ],
                   ),

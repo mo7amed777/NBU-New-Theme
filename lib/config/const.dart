@@ -25,6 +25,48 @@ const Map<Map<String, String>, Map<String, IconData>> hrServices = {
   },
 };
 
+const Map<Map<String, String>, Map<String, IconData>> aboutUniversity = {
+  {'الرؤية والرسالة والأهداف': 'الرؤية والرسالة والأهداف لدى الجامعة'}: {
+    'عرض الرؤية والرسالة والأهداف لجامعة الحدود الشمالية': FontAwesomeIcons.eye
+  },
+  {'مجلس الجامعة': 'مجلس جامعة الحدود الشمالية'}: {
+    'عرض المجلس الجامعي لدى جامعة الحدود الشمالية': FontAwesomeIcons.peopleRoof
+  },
+  {'المرصد الجامعي': 'المرصد الجامعي لدى جامعة الحدود الشمالية'}: {
+    'عرض  بيانات المرصد الجامعي لدى جامعة الحدود الشمالية':
+        FontAwesomeIcons.chartLine
+  },
+  {'اتصل بنا': 'اتصل بنا للحصول على المزيد من المعلومات'}: {
+    'تواصل معنا للإستفسار والمساعده في خدمات الجامعة': FontAwesomeIcons.phone
+  },
+};
+
+const Map<Map<String, String>, Map<String, IconData>> homeUniversity = {
+  {'إدارة الجامعة': 'إدارة جامعة الحدود الشمالية'}: {
+    'عرض الإدارة لدى جامعة الحدود الشمالية': FontAwesomeIcons.landmark
+  },
+  {'عن الجامعة': 'المزيد عن جامعة الحدود الشمالية'}: {
+    'عرض المزيد عن جامعة الحدود الشمالية': FontAwesomeIcons.houseLaptop
+  },
+  {'اتصل بنا': 'اتصل بنا للحصول على المزيد من المعلومات'}: {
+    'تواصل معنا للإستفسار والمساعده في خدمات الجامعة':
+        FontAwesomeIcons.phoneFlip
+  },
+};
+
+const List<List<String>> chipAboutUniversity = [
+  ["الرؤية", "الأهداف", "الرسالة"],
+  ["مجلس", "الجامعة"],
+  ["الجامعي", "المرصد"],
+  ["الاتصال", "اتصل"],
+];
+
+const List<List<String>> chipHomeUniversity = [
+  ["إدارة", "الجامعة"],
+  ["الجامعة", "عن", "المزيد"],
+  ["الاتصال", "اتصل"],
+];
+
 const List<List<String>> chipListHR = [
   ["التدريبية", "الدورات"],
   ["الشهادات", "العلمية", "المؤهلات"],

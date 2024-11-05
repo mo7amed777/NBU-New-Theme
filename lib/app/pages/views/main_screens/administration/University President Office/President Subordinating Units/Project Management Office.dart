@@ -49,7 +49,7 @@ class _ProjectManagementOfficeState extends State<ProjectManagementOffice> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(top: 8.h, left: 12.w),
+            padding: EdgeInsets.only(top: 8.h, right: 8.w),
             child: Text(
               "مخطط الهيكل التنظيمي للمكتب موضح بالشكل التالي:",
               style: TextStyle(
@@ -61,7 +61,7 @@ class _ProjectManagementOfficeState extends State<ProjectManagementOffice> {
           ),
           Image.asset('assets/images/structure.png'),
           Padding(
-            padding: EdgeInsets.only(left: 16.w, top: 8.h),
+            padding: EdgeInsets.only(right: 8.w, top: 8.h),
             child: Text(
               "تشكيل المكتب:",
               style: TextStyle(
@@ -72,7 +72,7 @@ class _ProjectManagementOfficeState extends State<ProjectManagementOffice> {
             ),
           ),
           Card(
-            margin: EdgeInsets.only(left: 16.w, top: 8.h),
+            margin: EdgeInsets.all(8.sp),
             child: Padding(
               padding: EdgeInsets.all(8.sp),
               child: GridView.count(
@@ -118,7 +118,7 @@ class _ProjectManagementOfficeState extends State<ProjectManagementOffice> {
           ),
           Image.asset('assets/images/staff.png'),
           Padding(
-            padding: EdgeInsets.only(left: 16.w, top: 8.h),
+            padding: EdgeInsets.only(right: 8.w, top: 8.h),
             child: Text(
               "الانجازات:",
               style: TextStyle(

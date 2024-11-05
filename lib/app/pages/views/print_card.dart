@@ -61,10 +61,10 @@ class _PrintCardState extends State<PrintCard> {
         children: <Widget>[
           Padding(
               padding: EdgeInsets.only(
-                  top: Get.height * 0.15, left: 8.w, right: 8.w),
+                  top: Get.height * 0.075, left: 8.w, right: 8.w),
               child: _buildProfileContent(context)),
           Positioned(
-            top: Get.height * 0.065,
+            top: Get.height * 0.015,
             left: 4.w,
             child: IconButton(
               icon: Icon(Icons.arrow_forward_ios),
@@ -72,7 +72,9 @@ class _PrintCardState extends State<PrintCard> {
             ),
           ),
           Positioned(
-            top: Get.height * 0.07,
+            top: Get.height * 0.02,
+            left: 1.w,
+            right: 1.w,
             child: Center(
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 16.w),
@@ -97,7 +99,6 @@ class _PrintCardState extends State<PrintCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SizedBox(height: 8.0),
           CustomRow(
               title: 'الإســـم ',
               trailing: getUserName(
@@ -115,7 +116,6 @@ class _PrintCardState extends State<PrintCard> {
               title: 'المعدل',
               trailing: student.gpa != null ? student.gpa!.toString() : ""),
           CustomRow(title: 'القسم   ', trailing: student.departmentName ?? ""),
-          SizedBox(height: 16.h),
           //Upload Photo Optional if printed
           TextButton.icon(
             //Check if first time to print
@@ -143,11 +143,10 @@ class _PrintCardState extends State<PrintCard> {
               color: Colors.white,
             ),
           ),
-          SizedBox(height: 8.0),
           //Convert bloodTypes to dropDown menu
 
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(4.0),
             child: DropdownButton<String>(
               value: selectedBloodType,
               isExpanded: true,
@@ -161,8 +160,8 @@ class _PrintCardState extends State<PrintCard> {
                     bloodType['name'],
                     style: TextStyle(
                       color: bloodType['id'] != '-1'
-                          ? colorPrimaryLighter
-                          : colorBlackLighter,
+                          ? colorPrimary
+                          : colorBlackLight,
                     ),
                   ),
                 );
@@ -181,7 +180,6 @@ class _PrintCardState extends State<PrintCard> {
               },
             ),
           ),
-          SizedBox(height: 8.0),
           CustomButton(
             callBack: () {
               if (widget.user.isEmpty) {
