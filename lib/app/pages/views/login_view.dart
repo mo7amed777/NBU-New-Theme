@@ -271,13 +271,13 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
           ),
 
           Positioned(
-            top: 50.h,
+            top: 25.h,
             left: 1,
             right: 1,
             child: Image.asset(
               'assets/images/welcome_text.png',
-              height: 100.h,
-              width: 100.w,
+              height: 95.h,
+              width: 95.w,
             ),
           ),
 
@@ -292,7 +292,7 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
             ),
           ),
           Positioned(
-            top: 180.h,
+            top: 140.h,
             right: 1,
             left: 1,
             child: Image.asset(
@@ -302,7 +302,7 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
             ),
           ),
           Positioned(
-            top: Get.height * 0.5,
+            top: Get.height * 0.45,
             right: 1,
             left: 1,
             child: Text(

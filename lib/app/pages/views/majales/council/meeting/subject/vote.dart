@@ -120,7 +120,7 @@ class _SubjectVoteState extends State<SubjectVote> {
                   top: Get.height * 0.07,
                   child: Center(
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 6),
+                      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
                         color: colorPrimary,

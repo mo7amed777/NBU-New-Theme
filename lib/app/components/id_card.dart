@@ -20,7 +20,7 @@ class IDCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 32.sp, left: 12.sp, right: 12.sp),
+      padding: EdgeInsets.only(top: 16.sp, left: 12.sp, right: 12.sp),
       child: Stack(
         children: [
           ClipRRect(
@@ -30,7 +30,7 @@ class IDCard extends StatelessWidget {
             ),
           ),
           Positioned(
-              top: 70.h,
+              top: 67.h,
               left: 0,
               right: 0,
               child: userType != "student" && image!.isNotEmpty
@@ -61,12 +61,12 @@ class IDCard extends StatelessWidget {
                       ),
                     )),
           Positioned(
-            bottom: 35.h,
+            bottom: 25.h,
             left: 10.w,
             // right: 1,
             child: Container(
-              height: 60.h,
-              width: 65.w,
+              height: 75.h,
+              width: 75.w,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
@@ -83,7 +83,7 @@ class IDCard extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: Get.height * 0.25,
+            top: Get.height * 0.225,
             left: 1,
             right: 1,
             child: Column(

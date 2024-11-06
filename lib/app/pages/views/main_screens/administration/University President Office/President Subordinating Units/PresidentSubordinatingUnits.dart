@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:eservices/config/theme/app_colors.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class PresidentSubordinatingUnits extends StatefulWidget {
@@ -85,8 +86,7 @@ class _PresidentSubordinatingUnitsState
                                       // Adjust the bottom right border radius
                                       ),
                                   side: BorderSide(
-                                    color: Color(
-                                        0xff337c3d), // Change this color to the desired border color
+                                    color: colorLightGreen // Change this color to the desired border color
                                     // Change this value to the desired border width
                                   ),
                                 ),
@@ -106,8 +106,7 @@ class _PresidentSubordinatingUnitsState
 
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                color: Color(
-                                                    0xff9ab83d), // Change this color to the desired border color
+                                                color: colorLightGreen, // Change this color to the desired border color
                                                 width:
                                                     1.9, // Change this value to the desired border width
                                               ),
@@ -117,7 +116,7 @@ class _PresidentSubordinatingUnitsState
                                             child: Icon(
                                               icons[index]!,
                                               size: 28.sp,
-                                              color: Color(0xff217445),
+                                              color: colorPrimary,
                                             ),
                                           ),
                                           SizedBox(
@@ -127,7 +126,7 @@ class _PresidentSubordinatingUnitsState
                                             items[index]!,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                color: Color(0xff659d43),
+                                                color: colorPrimary,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 12.sp),
                                           ),

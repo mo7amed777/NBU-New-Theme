@@ -9,10 +9,10 @@ void showDetails({required List<CustomRow> rows, required String title}) async {
   await Get.dialog(
     Card(
       margin: EdgeInsets.only(
-          top: Get.height * 0.2,
+          top: Get.height * 0.15,
           right: 28.w,
           left: 28.w,
-          bottom: Get.height * 0.2),
+          bottom: Get.height * 0.15),
       child: Padding(
         padding: EdgeInsets.only(top: 10.h, right: 10.w, left: 10.w),
         child: SingleChildScrollView(

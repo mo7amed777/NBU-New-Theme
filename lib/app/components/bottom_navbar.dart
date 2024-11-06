@@ -14,6 +14,7 @@ BottomNavigationBar buildBottomNavBar({
     type: BottomNavigationBarType.fixed,
     showUnselectedLabels: true,
     unselectedItemColor: colorBlackLight,
+    backgroundColor: Colors.transparent,
     selectedItemColor: colorPrimary,
     elevation: 0.0,
     items: [

@@ -416,20 +416,20 @@ class _ChattingState extends State<Chatting> {
                 border: InputBorder.none,
                 hintText: "ارسال رسالة",
                 hintStyle: TextStyle(color: Colors.grey),
-                prefixIcon: IconButton(
-                  icon: Icon(
-                    show ? Icons.keyboard : Icons.emoji_emotions_outlined,
-                  ),
-                  onPressed: () {
-                    if (!show) {
-                      focusNode.unfocus();
-                      focusNode.canRequestFocus = false;
-                    }
-                    setState(() {
-                      show = !show;
-                    });
-                  },
-                ),
+                // prefixIcon: IconButton(
+                //   icon: Icon(
+                //     show ? Icons.keyboard : Icons.emoji_emotions_outlined,
+                //   ),
+                //   onPressed: () {
+                //     if (!show) {
+                //       focusNode.unfocus();
+                //       focusNode.canRequestFocus = false;
+                //     }
+                //     setState(() {
+                //       show = !show;
+                //     });
+                //   },
+                // ),
                 suffixIcon: IconButton(
                   icon: Icon(Icons.camera_alt),
                   onPressed: () async {
