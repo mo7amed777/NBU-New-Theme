@@ -146,11 +146,11 @@ const Map<Map<String, String>, Map<String, IconData>> skillsRecordServices = {
 };
 
 const Map<Map<String, String>, Map<String, IconData>> supportServices = {
-  {'الطلبات': 'طلبات الشكاوي والاستفسارات الخاصة بالمستفيد'}: {
-    'متابعة حالة الطلبات الخاصة بالمستخدم': FontAwesomeIcons.database,
+  {'التذاكر': 'طلبات الشكاوي والاستفسارات الخاصة بالمستفيد'}: {
+    'متابعة حالة التذاكر الخاصة بالمستخدم': FontAwesomeIcons.database,
   },
-  {'طلب جديد': 'تقديم الدعم والمساعده من خلال طلب جديد'}: {
-    'إنشاء طلب خدمة مستفيد جديد': FontAwesomeIcons.marker,
+  {'تذكرة جديدة': 'تقديم الدعم والمساعده من خلال تذكرة جديدة'}: {
+    'إنشاء تذكرة خدمة مستفيد جديدة': FontAwesomeIcons.marker,
   },
 };
 

@@ -120,7 +120,7 @@ class _SupportRequestsState extends State<SupportRequests> {
                                 )),
                             SizedBox(height: 32),
                             Text(
-                              'لا يوجد طلبات',
+                              'لا يوجد تذاكر',
                               style: TextStyle(
                                 color: colorPrimary,
                                 fontSize: 25.sp,
@@ -146,13 +146,14 @@ class _SupportRequestsState extends State<SupportRequests> {
               top: Get.height * 0.07,
               child: Center(
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 6, horizontal: 6),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 6.h, horizontal: 16.w),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                     color: colorPrimary,
                   ),
                   child: Text(
-                    'الطلبات',
+                    'التذاكر',
                     style: largeTitleStyle.copyWith(color: colorWhite),
                   ),
                 ),

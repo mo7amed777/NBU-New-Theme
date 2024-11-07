@@ -57,7 +57,7 @@ class SupportMe extends StatelessWidget {
                               icon: entry.value.values.first,
                               subTitle: entry.value.keys.first,
                               onTap: () {
-                                if (entry.key.keys.first == 'طلب جديد') {
+                                if (entry.key.keys.first == 'تذكرة جديدة') {
                                   newRequest();
                                 } else {
                                   Get.to(() => SupportRequests());

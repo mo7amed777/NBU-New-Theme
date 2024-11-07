@@ -171,7 +171,7 @@ class NewSupportRequest extends StatelessWidget {
                               attachments: attatchments,
                             );
                           },
-                          label: 'تقديم الطلب',
+                          label: 'حفظ',
                           fontSize: 18,
                           padding: 8,
                         ),
@@ -200,7 +200,7 @@ class NewSupportRequest extends StatelessWidget {
                   color: colorPrimary,
                 ),
                 child: Text(
-                  'طلب جديد',
+                  'تذكرة جديدة',
                   style: largeTitleStyle.copyWith(color: colorWhite),
                 ),
               ),
@@ -254,7 +254,7 @@ class NewSupportRequest extends StatelessWidget {
       if (controller.apiCallStatus == ApiCallStatus.success) {
         Get.back();
         CustomSnackBar.showCustomSnackBar(
-            title: 'نجاح', message: 'تم اضافة الطلب بنجاح');
+            title: 'نجاح', message: 'تم اضافة التذكرة بنجاح');
       }
     });
   }
