@@ -321,14 +321,14 @@ void printCard(Student user) async {
   await showLoadingOverlay(asyncFunction: () async {
     try {
       APIController controller = APIController(
-        url: "https://apptest2.nbu.edu.sa/api/StudentMobile/GetBloodType",
+        url: "https://std-card.nbu.edu.sa/api/StudentMobile/GetBloodType",
       );
       await controller.getData();
       if (controller.apiCallStatus == ApiCallStatus.success) {
         bloodTypes = controller.data['returnObject'];
         controller = APIController(
           url:
-          "https://apptest2.nbu.edu.sa/api/StudentMobile/GetStudentByNid?nid=${user
+          "https://std-card.nbu.edu.sa/api/StudentMobile/GetStudentByNid?nid=${user
               .nid}",
         );
         await controller.getData();
@@ -337,7 +337,7 @@ void printCard(Student user) async {
             userData = controller.data['returnObject'];
           } else {
             controller = APIController(
-              url: "https://apptest2.nbu.edu.sa/api/StudentMobile/GetBranches",
+              url: "https://std-card.nbu.edu.sa/api/StudentMobile/GetBranches",
             );
             await controller.getData();
             if (controller.apiCallStatus == ApiCallStatus.success) {

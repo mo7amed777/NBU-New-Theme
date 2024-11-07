@@ -76,7 +76,7 @@ class HomeBody extends StatelessWidget {
 
   Widget homeContent() {
     return Padding(
-      padding: EdgeInsets.all(12.sp),
+      padding: EdgeInsets.all(10.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -126,13 +126,13 @@ class HomeBody extends StatelessWidget {
 
   Widget appBarSection(image, user) {
     return Container(
-      padding: EdgeInsets.all(12.sp),
+      padding: EdgeInsets.all(10.sp),
       width: Get.width,
       color: colorPrimary,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10.h),
+          SizedBox(height: 5.h),
 
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -188,7 +188,7 @@ class HomeBody extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 3.h),
           // GetBuilder<SearchingController>(
           //   init: SearchingController(),
           //   builder: (controller) => Container(

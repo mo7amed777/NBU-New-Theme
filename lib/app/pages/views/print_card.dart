@@ -256,8 +256,8 @@ class _PrintCardState extends State<PrintCard> {
 
       APIController controller = APIController(
         url: widget.user.isNotEmpty
-            ? 'https://apptest2.nbu.edu.sa/api/StudentMobile/EditStudent'
-            : 'https://apptest2.nbu.edu.sa/api/StudentMobile/AddStudent',
+            ? 'https://std-card.nbu.edu.sa/api/StudentMobile/EditStudent'
+            : 'https://std-card.nbu.edu.sa/api/StudentMobile/AddStudent',
         body: formData,
         requestType: RequestType.post,
       );
