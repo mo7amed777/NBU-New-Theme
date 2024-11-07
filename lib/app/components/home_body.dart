@@ -68,8 +68,7 @@ class HomeBody extends StatelessWidget {
           image: image,
         ),
       2 => Settings(
-          user: user,
-          type: userType,
+
         ),
       int() => Container(),
     });
@@ -77,7 +76,7 @@ class HomeBody extends StatelessWidget {
 
   Widget homeContent() {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(10.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -85,26 +84,26 @@ class HomeBody extends StatelessWidget {
             title: "الخدمات الرئيسية",
             onViewAll: () => Get.to(MainServices(userID: userID)),
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 5.h),
           servicesCards(userID),
-          SizedBox(height: 24.h),
+          SizedBox(height: 16.h),
           sectionTitle(
             title: "الخدمات الاكاديمية",
             onViewAll: () => Get.to(Academic(userID: userID)),
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 5.h),
           academicCards(userID, academicServices, false),
-          SizedBox(height: 24.h),
+          SizedBox(height: 16.h),
           if (userType != "student") ...[
             sectionTitle(
               title: "الموارد البشرية",
               onViewAll: () => Get.to(Hr(userID: userID)),
             ),
-            SizedBox(height: 10.h),
+            SizedBox(height: 5.h),
             academicCards(userID, hrServices, true),
           ] else ...[
             Text('خدمات أخرى', style: appTextStyle),
-            SizedBox(height: 10.h),
+            SizedBox(height: 5.h),
             MyCard(
               title: 'طباعة البطاقة',
               subTitle: 'طباعة بطاقة الطالب الجامعي',
@@ -120,7 +119,6 @@ class HomeBody extends StatelessWidget {
               fullWidth: true,
             )
           ],
-          SizedBox(height: 10.h),
         ],
       ),
     );
@@ -128,13 +126,13 @@ class HomeBody extends StatelessWidget {
 
   Widget appBarSection(image, user) {
     return Container(
-      padding: EdgeInsets.all(12.sp),
+      padding: EdgeInsets.all(10.sp),
       width: Get.width,
       color: colorPrimary,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10.h),
+          SizedBox(height: 5.h),
 
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -190,7 +188,7 @@ class HomeBody extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 3.h),
           // GetBuilder<SearchingController>(
           //   init: SearchingController(),
           //   builder: (controller) => Container(

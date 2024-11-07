@@ -319,46 +319,53 @@ void printCard(Student user) async {
   Map userData = {};
   int branchId = 0;
   await showLoadingOverlay(asyncFunction: () async {
-    APIController controller = APIController(
-      url: "https://apptest2.nbu.edu.sa/api/StudentMobile/GetBloodType",
-    );
-    await controller.getData();
-    if (controller.apiCallStatus == ApiCallStatus.success) {
-      bloodTypes = controller.data['returnObject'];
-      controller = APIController(
-        url:
-            "https://apptest2.nbu.edu.sa/api/StudentMobile/GetStudentByNid?nid=${user.nid}",
+    try {
+      APIController controller = APIController(
+        url: "https://std-card.nbu.edu.sa/api/StudentMobile/GetBloodType",
       );
       await controller.getData();
       if (controller.apiCallStatus == ApiCallStatus.success) {
-        if (controller.data['returnObject'] != null) {
-          userData = controller.data['returnObject'];
-        } else {
-          controller = APIController(
-            url: "https://apptest2.nbu.edu.sa/api/StudentMobile/GetBranches",
-          );
-          await controller.getData();
-          if (controller.apiCallStatus == ApiCallStatus.success) {
-            branches = controller.data['returnObject'];
-            branchId = getBranchId(branches, user.campName!);
+        bloodTypes = controller.data['returnObject'];
+        controller = APIController(
+          url:
+          "https://std-card.nbu.edu.sa/api/StudentMobile/GetStudentByNid?nid=${user
+              .nid}",
+        );
+        await controller.getData();
+        if (controller.apiCallStatus == ApiCallStatus.success) {
+          if (controller.data['returnObject'] != null) {
+            userData = controller.data['returnObject'];
           } else {
-            CustomSnackBar.showCustomErrorSnackBar(
-                title: 'فشل', message: controller.data['arabicMessage']);
-            return;
+            controller = APIController(
+              url: "https://std-card.nbu.edu.sa/api/StudentMobile/GetBranches",
+            );
+            await controller.getData();
+            if (controller.apiCallStatus == ApiCallStatus.success) {
+              branches = controller.data['returnObject'];
+              branchId = getBranchId(branches, user.campName!);
+            } else {
+              CustomSnackBar.showCustomErrorSnackBar(
+                  title: 'فشل', message: controller.data['arabicMessage']);
+              return;
+            }
           }
+        } else {
+          CustomSnackBar.showCustomErrorSnackBar(
+              title: 'فشل', message: controller.data['arabicMessage']);
+          return;
         }
+
+        Get.to(
+          PrintCard(branchId: branchId, bloodTypes: bloodTypes, user: userData),
+        );
       } else {
         CustomSnackBar.showCustomErrorSnackBar(
             title: 'فشل', message: controller.data['arabicMessage']);
         return;
       }
-
-      Get.to(
-        PrintCard(branchId: branchId, bloodTypes: bloodTypes, user: userData),
-      );
-    } else {
+    } catch (e){
       CustomSnackBar.showCustomErrorSnackBar(
-          title: 'فشل', message: controller.data['arabicMessage']);
+          title: 'فشل', message: 'خطأ في الاتصال يرجي المحاولة لاحقا!');
       return;
     }
   });

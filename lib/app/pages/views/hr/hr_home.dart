@@ -328,7 +328,11 @@ void getEmpSalary({required String userID}) async {
               salaryDefinition: salaryDefinition,
               qr: qr);
           binary = await pdfile.save();
-          final output = await getDownloadsDirectory();
+          late var output;
+          if(Platform.isAndroid)
+           output = await getDownloadsDirectory();
+          else
+            output = await getLibraryDirectory();
           final file = File('${output!.path}/salary.pdf');
           await file.writeAsBytes(binary);
           await OpenAppFile.open(

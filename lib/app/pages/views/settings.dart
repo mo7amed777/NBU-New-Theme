@@ -21,10 +21,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../components/custom_loading_overlay.dart';
 
 class Settings extends StatefulWidget {
-  final String? type;
-  final Student? user;
-
-  const Settings({this.type, this.user, Key? key}) : super(key: key);
+  const Settings({Key? key}) : super(key: key);
 
   @override
   State<Settings> createState() => _SettingsState();
@@ -35,8 +32,6 @@ bool isDark = false;
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
-    print(widget.type);
-
     return Stack(
       children: [
         Image.asset(
