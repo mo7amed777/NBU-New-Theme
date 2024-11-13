@@ -290,10 +290,10 @@ packages:
     dependency: transitive
     description:
       name: dart_quill_delta
-      sha256: "8cde757a1f09061c52bf3cbab2a5a9c5877ca2eddd6356f44a6229aecbf567fc"
+      sha256: "2962476fb9471439a959b68b0e032febee76475e934f2d65d8d86dd0d5bff7a6"
       url: "https://pub.dev"
     source: hosted
-    version: "10.1.9"
+    version: "10.8.2"
   dart_style:
     dependency: transitive
     description:
@@ -475,14 +475,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  flutter_keyboard_visibility:
-    dependency: transitive
-    description:
-      name: flutter_keyboard_visibility
-      sha256: "98664be7be0e3ffca00de50f7f6a287ab62c763fc8c762e0a21584584a3ff4f8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.0"
   flutter_keyboard_visibility_linux:
     dependency: transitive
     description:
@@ -507,14 +499,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  flutter_keyboard_visibility_web:
+  flutter_keyboard_visibility_temp_fork:
     dependency: transitive
     description:
-      name: flutter_keyboard_visibility_web
-      sha256: d3771a2e752880c79203f8d80658401d0c998e4183edca05a149f5098ce6e3d1
+      name: flutter_keyboard_visibility_temp_fork
+      sha256: "2d94acecfc170d244157821cc67e784f60972677aac94a6672626a5d6b2dc537"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "0.1.3"
   flutter_keyboard_visibility_windows:
     dependency: transitive
     description:
@@ -564,18 +556,18 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_quill
-      sha256: a3ad192d7a126f3662b541e8d695b40e0853abdd9d8c288655df8dcb4ffe79e8
+      sha256: f33f9b42705ef0ab9c633fadb7d47622235f0f96d26c8516b4c7a785b49d85e2
       url: "https://pub.dev"
     source: hosted
-    version: "10.1.9"
+    version: "10.8.2"
   flutter_quill_delta_from_html:
     dependency: transitive
     description:
       name: flutter_quill_delta_from_html
-      sha256: "36ff8bb045e280f59a2e7feb6f4dca62e80a14c8377dfe8260d8fe69dcda9a33"
+      sha256: "288f879bd11f9b6857868e7b198e69918530bd63d196ead6d8a9ee780b4b44d2"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.13"
+    version: "1.4.2"
   flutter_screenutil:
     dependency: "direct main"
     description:
@@ -790,18 +782,18 @@ packages:
     dependency: "direct main"
     description:
       name: image_cropper
-      sha256: "7c3a85e54ec591738ee68f3cc9b8849bab0ec8e908bf8970645be959a079e17f"
+      sha256: fe37d9a129411486e0d93089b61bd326d05b89e78ad4981de54b560725bf5bd5
       url: "https://pub.dev"
     source: hosted
-    version: "8.0.1"
+    version: "8.0.2"
   image_cropper_for_web:
     dependency: transitive
     description:
       name: image_cropper_for_web
-      sha256: "65f3f23fb82ff153601f22864e07e2ec14a7859db9e6ee5f643f0cde5243e9f2"
+      sha256: "34256c8fb7fcb233251787c876bb37271744459b593a948a2db73caa323034d0"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.1"
+    version: "6.0.2"
   image_cropper_platform_interface:
     dependency: transitive
     description:
@@ -1330,6 +1322,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
+  quill_native_bridge:
+    dependency: transitive
+    description:
+      name: quill_native_bridge
+      sha256: "7e2050567c5dae3516b6c399fdd2036971aa16114e19c51832523f2ec1b8faca"
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.6.2"
   quiver:
     dependency: transitive
     description:
@@ -1872,5 +1872,5 @@ packages:
     source: hosted
     version: "2.0.1"
 sdks:
-  dart: ">=3.5.0-259.0.dev <4.0.0"
+  dart: ">=3.5.1 <4.0.0"
   flutter: ">=3.22.0"

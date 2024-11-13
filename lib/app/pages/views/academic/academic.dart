@@ -32,7 +32,6 @@ class Academic extends StatelessWidget {
               padding: EdgeInsets.only(
                   top: Get.height * 0.15, left: 8.w, right: 8.w),
               child: SizedBox(
-                height: Get.height,
                 child: AnimationLimiter(
                   child: GridView(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -42,6 +41,10 @@ class Academic extends StatelessWidget {
                     physics: BouncingScrollPhysics(),
                     children: academicServices.entries.map(
                       (entry) {
+
+
+
+
                         index++;
                         return AnimationConfiguration.staggeredGrid(
                           position: index,
@@ -66,7 +69,7 @@ class Academic extends StatelessWidget {
                           ),
                         );
                       },
-                    ).toList(),
+                    ).skipWhile((entry)=>((userData['userType'] != "student" && entry.key.keys.first == 'السجل المهاري') || (userData['userType'] != "student" && userData['userType']!='academic' && entry.key.keys.first == 'الجدول الدراسي'))).toList(),
                   ),
                 ),
               )),

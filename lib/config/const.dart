@@ -86,31 +86,34 @@ const List<List<String>> chipList = [
 
 const List<List<String>> mainChipList = [
   ["المجالس", "اللجان", "المحضر", "التوقيع"],
-  ["المركز", "الصحي", "العيادات", "الاطباء", "المواعيد"],
   ["الدعم", "المستفيد", "الشكاوي", "الاستفسارات"],
   ["الإستبيانات", "الإجابة"],
+  ["المركز", "الصحي", "العيادات", "الاطباء", "المواعيد"],
+
 ];
 
 const Map<String, IconData> services = {
   'المجالس واللجان': FontAwesomeIcons.chalkboardUser,
-  'المركز الصحي': FontAwesomeIcons.heartCircleCheck,
   'خدمة المستفيد': FontAwesomeIcons.headset,
   'الإجابة على الإستبيانات': FontAwesomeIcons.question,
+  'المركز الصحي': FontAwesomeIcons.heartCircleCheck,
+
 };
 
 const Map<Map<String, String>, Map<String, IconData>> mainServices = {
   {'المجالس واللجان': 'المجالس واللجان وعرض المحضر الخاص بكل مجلس'}: {
     'نظام المجالس واللجان واضافة التوقيع': FontAwesomeIcons.chalkboardUser
   },
-  {'المركز الصحي': 'المركز الصحي ومواعيد العيادات الخاصة والأطباء'}: {
-    'حجز واستعراض مواعيد العيادات': FontAwesomeIcons.heartCircleCheck
-  },
+
   {'خدمة المستفيد': 'تقديم الدعم والمساعده من خلال خدمة المستفيد'}: {
     'خدمات الشكاوي والاستفسارات الخاصة بالمستفيد': FontAwesomeIcons.headset
   },
   {'الإجابة على الإستبيانات': 'استعراض وإجابة الاستبيانات الخاصة بالجامعة'}: {
     'تقديم الآراء المختلفة من خلال الإجابة على الإستبيانات':
         FontAwesomeIcons.question
+  },
+  {'المركز الصحي': 'المركز الصحي ومواعيد العيادات الخاصة والأطباء'}: {
+    'حجز واستعراض مواعيد العيادات': FontAwesomeIcons.heartCircleCheck
   },
 };
 

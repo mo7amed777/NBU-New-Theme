@@ -340,12 +340,18 @@ class HomeBody extends StatelessWidget {
       Map<Map<String, String>, Map<String, IconData>> servicesList, bool isHR) {
     List<List<String>> list = isHR ? chipListHR : chipList;
     int index = 0;
-
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: servicesList.entries.map(
           (entry) {
+            String title = entry.key.keys.first;
+            if(!isHR){
+              if (userType != "student" && title == 'السجل المهاري')
+                return Container();
+              if (userType != "student" && userType!='academic' && title == 'الجدول الدراسي')
+                return Container();
+            }
             return MyCard(
               title: entry.key.keys.first,
               desc: entry.key.values.first,

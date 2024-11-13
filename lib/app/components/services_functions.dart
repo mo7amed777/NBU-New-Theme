@@ -258,7 +258,6 @@ void loginSupportMe({required String userID}) async {
     //   'nid': 'y5QL51sVSxtNrXFCpJobAg,,',
     //   'role': 'HvmQH9ie_P6SA5jU9o2oeA,,',
     // });
-    try {
       await controller.getData();
       if (controller.apiCallStatus == ApiCallStatus.success &&
           controller.data['returnObject'] != null) {
@@ -272,10 +271,7 @@ void loginSupportMe({required String userID}) async {
         CustomSnackBar.showCustomErrorSnackBar(
             title: 'خطأ في الدخول', message: controller.data['arabicMessage']);
       }
-    } catch (e) {
-      CustomSnackBar.showCustomErrorSnackBar(
-          title: 'خطأ في الدخول', message: 'حدث خطأ في الاتصال يرجى المحاولة');
-    }
+
   });
 }
 

@@ -10,7 +10,7 @@ import 'package:animated_rating_stars/animated_rating_stars_web.dart';
 import 'package:audio_session/audio_session_web.dart';
 import 'package:device_info_plus/src/device_info_plus_web.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
-import 'package:flutter_keyboard_visibility_web/flutter_keyboard_visibility_web.dart';
+import 'package:flutter_keyboard_visibility_temp_fork/flutter_keyboard_visibility_web.dart';
 import 'package:image_cropper_for_web/image_cropper_for_web.dart';
 import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:just_audio_web/just_audio_web.dart';
@@ -30,7 +30,7 @@ void registerPlugins([final Registrar? pluginRegistrar]) {
   AudioSessionWeb.registerWith(registrar);
   DeviceInfoPlusWebPlugin.registerWith(registrar);
   FilePickerWeb.registerWith(registrar);
-  FlutterKeyboardVisibilityPlugin.registerWith(registrar);
+  FlutterKeyboardVisibilityTempForkWeb.registerWith(registrar);
   ImageCropperPlugin.registerWith(registrar);
   ImagePickerPlugin.registerWith(registrar);
   JustAudioPlugin.registerWith(registrar);

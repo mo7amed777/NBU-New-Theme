@@ -127,6 +127,15 @@ class _PrintCardState extends State<PrintCard> {
               trailing: student.gpa != null ? student.gpa!.toString() : ""),
           CustomRow(title: 'القسم   ', trailing: student.departmentName ?? ""),
           //Upload Photo Optional if printed
+         Visibility(child: 
+            SizedBox(
+              height: 100.h,
+              width: 100.h,
+              child: Image.file(image!),
+            ),
+           visible: image!=null,
+         ),
+         
           TextButton.icon(
             //Check if first time to print
 
@@ -145,7 +154,10 @@ class _PrintCardState extends State<PrintCard> {
                   await ImagePicker().pickImage(source: ImageSource.camera);
 
               if (pickedFile != null) {
-                image = File(pickedFile.path);
+                setState(() {
+                  image = File(pickedFile.path);
+                  
+                });
               }
             },
             icon: Icon(
@@ -221,7 +233,7 @@ class _PrintCardState extends State<PrintCard> {
               },
             ),
           ),
-
+        
           CustomButton(
             callBack: () {
               if (widget.user.isEmpty) {
@@ -231,7 +243,7 @@ class _PrintCardState extends State<PrintCard> {
                   return;
                 }
               }
-              if (selectedBloodTypeId == 0) {
+              if (selectedBloodTypeId == 0 && selectedBloodType=='-1') {
                 CustomSnackBar.showCustomErrorSnackBar(
                     title: 'خطأ',
                     message: 'يجب اختيار فصيلة الدم لطباعة البطاقة');
