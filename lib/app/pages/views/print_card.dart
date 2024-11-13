@@ -22,11 +22,13 @@ import '../../components/id_card.dart';
 class PrintCard extends StatefulWidget {
   final int branchId;
   final List bloodTypes;
+  final List nationalities;
   final Map user;
   const PrintCard(
       {Key? key,
       required this.branchId,
       required this.user,
+      required this.nationalities,
       required this.bloodTypes})
       : super(key: key);
 
@@ -38,6 +40,7 @@ class _PrintCardState extends State<PrintCard> {
   Map<String, dynamic> userData = MySharedPref.getUserData();
   late Student student;
   String selectedBloodType = 'فصيلة الدم';
+  String selectedNationality = 'الجنسية';
 
   @override
   void initState() {
@@ -52,6 +55,10 @@ class _PrintCardState extends State<PrintCard> {
     selectedBloodType = widget.user.isNotEmpty
         ? widget.user['bloodTypeId'].toString()
         : widget.bloodTypes[0]['id'].toString();
+
+    selectedNationality = widget.user['nationalityId'] != null
+        ? widget.user['nationalityId'].toString()
+        : widget.nationalities[0]['id'].toString();
   }
 
   @override
@@ -83,7 +90,7 @@ class _PrintCardState extends State<PrintCard> {
                   color: colorPrimary,
                 ),
                 child: Text(
-                  'طباعة بطاقة الطالب',
+                  'طلب طباعة بطاقة الطالب',
                   style: largeTitleStyle.copyWith(color: colorWhite),
                 ),
               ),
@@ -112,6 +119,9 @@ class _PrintCardState extends State<PrintCard> {
           CustomRow(title: 'التخصص', trailing: student.programName ?? ""),
           CustomRow(title: 'الحالة', trailing: student.status ?? ""),
           CustomRow(title: 'التقدير', trailing: student.gade ?? ""),
+          CustomRow(
+              title: 'الجنسية',
+              trailing: widget.user['nationality']['arabicName'] ?? ""),
           CustomRow(
               title: 'المعدل',
               trailing: student.gpa != null ? student.gpa!.toString() : ""),
@@ -144,7 +154,6 @@ class _PrintCardState extends State<PrintCard> {
             ),
           ),
           //Convert bloodTypes to dropDown menu
-
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: DropdownButton<String>(
@@ -180,6 +189,39 @@ class _PrintCardState extends State<PrintCard> {
               },
             ),
           ),
+
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: DropdownButton<String>(
+              value: selectedNationality,
+              isExpanded: true,
+              underline: Container(height: 1, color: colorLightGreen),
+              items: widget.nationalities
+                  .map<DropdownMenuItem<String>>((nationality) {
+                return DropdownMenuItem<String>(
+                  value: nationality['id'].toString(),
+                  child: Text(
+                    nationality['arabicName'],
+                    style: TextStyle(
+                      color: colorPrimary,
+                    ),
+                  ),
+                );
+              }).toList(),
+              hint: Text('اختر الجنسية:'),
+              onChanged: (value) async {
+                setState(() {
+                  selectedNationality = value!;
+                  for (var nationlty in widget.nationalities) {
+                    if (nationlty['id'].toString() == value) {
+                      selectedNationalityId = nationlty['id'];
+                    }
+                  }
+                });
+              },
+            ),
+          ),
+
           CustomButton(
             callBack: () {
               if (widget.user.isEmpty) {
@@ -206,9 +248,11 @@ class _PrintCardState extends State<PrintCard> {
                 bloodTypeId: widget.user.isNotEmpty
                     ? widget.user['bloodTypeId']
                     : selectedBloodTypeId,
+                nationalityId:
+                    widget.user['bloodTypeId'] ?? selectedNationalityId ?? 1,
               );
             },
-            label: 'طباعة البطاقة',
+            label: 'إرسال الطلب',
             fontSize: 18,
             padding: 8,
           ),
@@ -219,12 +263,14 @@ class _PrintCardState extends State<PrintCard> {
 
   File? image;
   int selectedBloodTypeId = 0;
+  int selectedNationalityId = 1;
 
   void printCard({
     required bool isPrinted,
     required int branchId,
     required int copyNumber,
     required int bloodTypeId,
+    required int nationalityId,
   }) async {
     await showLoadingOverlay(asyncFunction: () async {
       dio.MultipartFile? attatchment;
@@ -247,8 +293,7 @@ class _PrintCardState extends State<PrintCard> {
         "BloodTypeId": bloodTypeId,
         "AttachmentId":
             widget.user.isNotEmpty ? widget.user['attachmentId'] : 0,
-        "NationalityId":
-            widget.user.isNotEmpty ? widget.user['NationalityId'] : 1,
+        "NationalityId": widget.user['NationalityId'] ?? nationalityId ?? 1,
         "UniversityCode": student.id,
         'Profile': attatchment ?? widget.user['profilePath'],
       };

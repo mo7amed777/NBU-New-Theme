@@ -315,7 +315,7 @@ int getBranchId(List branches, String branch) {
 
 void printCard(Student user) async {
   List bloodTypes = [];
-  List branches = [];
+  List branches = [], nationalities = [];
   Map userData = {};
   int branchId = 0;
   await showLoadingOverlay(asyncFunction: () async {
@@ -327,9 +327,19 @@ void printCard(Student user) async {
       if (controller.apiCallStatus == ApiCallStatus.success) {
         bloodTypes = controller.data['returnObject'];
         controller = APIController(
+          url: "https://std-card.nbu.edu.sa/api/StudentMobile/GetNationalities",
+        );
+        await controller.getData();
+        if (controller.apiCallStatus == ApiCallStatus.success) {
+          nationalities = controller.data['returnObject'];
+        } else {
+          nationalities = [
+            {"id": 1, "arabicName": "السعودية", "englishName": "Saudi Arabia"},
+          ];
+        }
+        controller = APIController(
           url:
-          "https://std-card.nbu.edu.sa/api/StudentMobile/GetStudentByNid?nid=${user
-              .nid}",
+              "https://std-card.nbu.edu.sa/api/StudentMobile/GetStudentByNid?nid=${user.nid}",
         );
         await controller.getData();
         if (controller.apiCallStatus == ApiCallStatus.success) {
@@ -356,14 +366,18 @@ void printCard(Student user) async {
         }
 
         Get.to(
-          PrintCard(branchId: branchId, bloodTypes: bloodTypes, user: userData),
+          PrintCard(
+              branchId: branchId,
+              bloodTypes: bloodTypes,
+              user: userData,
+              nationalities: nationalities),
         );
       } else {
         CustomSnackBar.showCustomErrorSnackBar(
             title: 'فشل', message: controller.data['arabicMessage']);
         return;
       }
-    } catch (e){
+    } catch (e) {
       CustomSnackBar.showCustomErrorSnackBar(
           title: 'فشل', message: 'خطأ في الاتصال يرجي المحاولة لاحقا!');
       return;
