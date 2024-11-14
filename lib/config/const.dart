@@ -78,10 +78,10 @@ const List<List<String>> chipListHR = [
 ];
 
 const List<List<String>> chipList = [
-  ["الفعاليات", "التخرج", "الحفل"],
-  ["الجدول", "الدراسي"],
-  ["التقويم", "الجامعي"],
   ["السجل", "المهاري", "الدورات", "الشهادات"],
+  ["الجدول", "الدراسي"],
+  ["الفعاليات", "التخرج", "الحفل"],
+  ["التقويم", "الجامعي"],
 ];
 
 const List<List<String>> mainChipList = [
@@ -89,7 +89,6 @@ const List<List<String>> mainChipList = [
   ["الدعم", "المستفيد", "الشكاوي", "الاستفسارات"],
   ["الإستبيانات", "الإجابة"],
   ["المركز", "الصحي", "العيادات", "الاطباء", "المواعيد"],
-
 ];
 
 const Map<String, IconData> services = {
@@ -97,14 +96,12 @@ const Map<String, IconData> services = {
   'خدمة المستفيد': FontAwesomeIcons.headset,
   'الإجابة على الإستبيانات': FontAwesomeIcons.question,
   'المركز الصحي': FontAwesomeIcons.heartCircleCheck,
-
 };
 
 const Map<Map<String, String>, Map<String, IconData>> mainServices = {
   {'المجالس واللجان': 'المجالس واللجان وعرض المحضر الخاص بكل مجلس'}: {
     'نظام المجالس واللجان واضافة التوقيع': FontAwesomeIcons.chalkboardUser
   },
-
   {'خدمة المستفيد': 'تقديم الدعم والمساعده من خلال خدمة المستفيد'}: {
     'خدمات الشكاوي والاستفسارات الخاصة بالمستفيد': FontAwesomeIcons.headset
   },
@@ -118,17 +115,17 @@ const Map<Map<String, String>, Map<String, IconData>> mainServices = {
 };
 
 const Map<Map<String, String>, Map<String, IconData>> academicServices = {
-  {'الفعاليات': 'نظام حضور الفعاليات الخاص بالخريجين '}: {
-    'حضور حفلات الخريجين لدى الجامعة': FontAwesomeIcons.graduationCap
+  {'السجل المهاري': 'نظام مهارى لحضور الدورات العلمية'}: {
+    'حضور الدورات العلمية والحصول على الشهادات': FontAwesomeIcons.userGraduate
   },
   {'الجدول الدراسي': 'الجدول الدراسي للعام الجامعي 2024'}: {
     'الجدول الدراسي للعام الجامعي الحالي': FontAwesomeIcons.table
   },
+  {'الفعاليات': 'نظام حضور الفعاليات الخاص بالخريجين '}: {
+    'حضور حفلات الخريجين لدى الجامعة': FontAwesomeIcons.graduationCap
+  },
   {'التقويم الدراسي': 'التقويم الدراسي لعام 2024 / 2025'}: {
     'التقويم الدراسي للعام الجامعي الحالي': FontAwesomeIcons.calendarDays
-  },
-  {'السجل المهاري': 'نظام مهارى لحضور الدورات العلمية'}: {
-    'حضور الدورات العلمية والحصول على الشهادات': FontAwesomeIcons.userGraduate
   },
 };
 

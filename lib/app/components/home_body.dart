@@ -67,9 +67,7 @@ class HomeBody extends StatelessWidget {
           userType: userType,
           image: image,
         ),
-      2 => Settings(
-
-        ),
+      2 => Settings(),
       int() => Container(),
     });
   }
@@ -89,7 +87,17 @@ class HomeBody extends StatelessWidget {
           SizedBox(height: 16.h),
           sectionTitle(
             title: "الخدمات الاكاديمية",
-            onViewAll: () => Get.to(Academic(userID: userID)),
+            onViewAll: () {
+              List<List<String>> list = [...chipList];
+
+              if (userType != "student") {
+                list.removeAt(0);
+              }
+              if (userType != "student" && userType != 'academic') {
+                list.removeAt(0);
+              }
+              Get.to(Academic(userID: userID, list: list));
+            },
           ),
           SizedBox(height: 5.h),
           academicCards(userID, academicServices, false),
@@ -105,8 +113,8 @@ class HomeBody extends StatelessWidget {
             Text('خدمات أخرى', style: appTextStyle),
             SizedBox(height: 5.h),
             MyCard(
-              title: 'طباعة البطاقة',
-              subTitle: 'طباعة بطاقة الطالب الجامعي',
+              title: 'طلب طباعة بطاقة',
+              subTitle: 'طلب طباعة بطاقة الطالب',
               desc: 'طباعة بطاقة بيانات الطالب الجامعي',
               icon: FontAwesomeIcons.solidIdCard,
               chips: const [
@@ -338,7 +346,8 @@ class HomeBody extends StatelessWidget {
 
   Widget academicCards(userID,
       Map<Map<String, String>, Map<String, IconData>> servicesList, bool isHR) {
-    List<List<String>> list = isHR ? chipListHR : chipList;
+    List<List<String>> list = isHR ? [...chipListHR] : [...chipList];
+
     int index = 0;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -346,11 +355,18 @@ class HomeBody extends StatelessWidget {
         children: servicesList.entries.map(
           (entry) {
             String title = entry.key.keys.first;
-            if(!isHR){
-              if (userType != "student" && title == 'السجل المهاري')
+            if (!isHR) {
+              if (userType != "student" && title == 'السجل المهاري') {
+                list.removeAt(index);
                 return Container();
-              if (userType != "student" && userType!='academic' && title == 'الجدول الدراسي')
+              }
+              if (userType != "student" &&
+                  userType != 'academic' &&
+                  title == 'الجدول الدراسي') {
+                list.removeAt(index);
+
                 return Container();
+              }
             }
             return MyCard(
               title: entry.key.keys.first,

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:eservices/app/components/custom_button.dart';
 import 'package:eservices/app/components/custom_loading_overlay.dart';
 import 'package:eservices/app/data/models/users/student.dart';
 import 'package:eservices/app/pages/views/academic/schedule.dart';
@@ -8,6 +9,9 @@ import 'package:eservices/app/pages/views/majales/pdf_viewer.dart';
 import 'package:eservices/app/pages/views/print_card.dart';
 import 'package:eservices/app/pages/views/skills_record/skills_record.dart';
 import 'package:eservices/app/pages/views/support_me/support_me.dart';
+import 'package:eservices/app/routes/app_pages.dart';
+import 'package:eservices/config/theme/app_colors.dart';
+import 'package:eservices/config/theme/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,6 +25,7 @@ import 'package:eservices/app/pages/views/graduated_services/graduated_services_
 import 'package:eservices/app/services/api_call_status.dart';
 import 'package:eservices/app/services/base_client.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 void getSurveys({required String userID}) async {
   showLoadingOverlay(asyncFunction: () async {
@@ -258,20 +263,64 @@ void loginSupportMe({required String userID}) async {
     //   'nid': 'y5QL51sVSxtNrXFCpJobAg,,',
     //   'role': 'HvmQH9ie_P6SA5jU9o2oeA,,',
     // });
-      await controller.getData();
-      if (controller.apiCallStatus == ApiCallStatus.success &&
-          controller.data['returnObject'] != null) {
-        MySharedPref.setSupportMeToken(
-            controller.data['returnObject']['token']);
-        Get.to(() => SupportMe(
-              chatUserID: controller.data['returnObject']['id'],
-              showFromUser: controller.data['returnObject']['isAdmin'] ?? false,
-            ));
-      } else {
-        CustomSnackBar.showCustomErrorSnackBar(
-            title: 'خطأ في الدخول', message: controller.data['arabicMessage']);
-      }
+    await controller.getData();
+    if (controller.apiCallStatus == ApiCallStatus.success &&
+        controller.data['returnObject'] != null) {
+      MySharedPref.setSupportMeToken(controller.data['returnObject']['token']);
+      Get.to(() => SupportMe(
+            chatUserID: controller.data['returnObject']['id'],
+            showFromUser: controller.data['returnObject']['isAdmin'] ?? false,
+          ));
+    } else {
+      // CustomSnackBar.showCustomErrorSnackBar(
+      //     title: 'خطأ في الدخول', message: controller.data['arabicMessage']);
+      Get.back();
 
+      Get.bottomSheet(
+        Container(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 35),
+            width: Get.width,
+            decoration: const BoxDecoration(
+                color: colorBlack,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(15))),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('تسجيل الخروج',
+                    style: mediumTitleStyle.copyWith(color: colorWhite)),
+                SizedBox(height: 10.h),
+                Text('يجب تسجيل الخروج لتحديث بيانات النظام',
+                    style: appSubTextStyle.copyWith(
+                        fontSize: 15.sp, color: colorWhite)),
+                SizedBox(height: 10.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                          label: 'نعم',
+                          fontSize: 16.sp,
+                          callBack: () async {
+                            MySharedPref.setIsAuthenticated(false);
+
+                            await CookieManager().clearCookies();
+                            Get.offAllNamed(Routes.LOGIN);
+                          }),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: CustomButton(
+                        callBack: () => Get.back(closeOverlays: true),
+                        fontSize: 16.sp,
+                        label: 'لا',
+                        color: colorBlackLight,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            )),
+      );
+    }
   });
 }
 

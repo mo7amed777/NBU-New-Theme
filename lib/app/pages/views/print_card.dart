@@ -127,15 +127,16 @@ class _PrintCardState extends State<PrintCard> {
               trailing: student.gpa != null ? student.gpa!.toString() : ""),
           CustomRow(title: 'القسم   ', trailing: student.departmentName ?? ""),
           //Upload Photo Optional if printed
-         Visibility(child: 
+          if (image != null)
             SizedBox(
               height: 100.h,
               width: 100.h,
-              child: Image.file(image!),
+              child: Padding(
+                padding: EdgeInsets.all(8.sp),
+                child: Image.file(image!),
+              ),
             ),
-           visible: image!=null,
-         ),
-         
+
           TextButton.icon(
             //Check if first time to print
 
@@ -144,7 +145,7 @@ class _PrintCardState extends State<PrintCard> {
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             ),
             label: Text(
-              'اضافة صورة',
+              image == null ? 'اضافة صورة' : 'تعديل الصورة',
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -156,7 +157,6 @@ class _PrintCardState extends State<PrintCard> {
               if (pickedFile != null) {
                 setState(() {
                   image = File(pickedFile.path);
-                  
                 });
               }
             },
@@ -233,7 +233,7 @@ class _PrintCardState extends State<PrintCard> {
               },
             ),
           ),
-        
+
           CustomButton(
             callBack: () {
               if (widget.user.isEmpty) {
@@ -243,7 +243,7 @@ class _PrintCardState extends State<PrintCard> {
                   return;
                 }
               }
-              if (selectedBloodTypeId == 0 && selectedBloodType=='-1') {
+              if (selectedBloodTypeId == 0 && selectedBloodType == '-1') {
                 CustomSnackBar.showCustomErrorSnackBar(
                     title: 'خطأ',
                     message: 'يجب اختيار فصيلة الدم لطباعة البطاقة');

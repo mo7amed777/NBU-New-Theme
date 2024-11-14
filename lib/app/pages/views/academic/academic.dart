@@ -16,7 +16,8 @@ import 'package:eservices/app/pages/views/academic/timeline.dart';
 
 class Academic extends StatelessWidget {
   String userID;
-  Academic({required this.userID});
+  List<List<String>> list;
+  Academic({required this.userID, required this.list});
   Map<String, dynamic> userData = MySharedPref.getUserData();
 
   @override
@@ -39,13 +40,19 @@ class Academic extends StatelessWidget {
                         mainAxisSpacing: 5.sp,
                         crossAxisCount: 1),
                     physics: BouncingScrollPhysics(),
-                    children: academicServices.entries.map(
+                    children: academicServices.entries.skipWhile((entry) {
+                      final keyMap = entry.key;
+                      // Extract the first key from the inner Map<String, String>
+                      final firstKey = keyMap.entries.first.key;
+                      return ((userData['userType'] != "student" &&
+                              firstKey == 'السجل المهاري') ||
+                          (userData['userType'] != "student" &&
+                              userData['userType'] != 'academic' &&
+                              firstKey == 'الجدول الدراسي'));
+                    }).map(
                       (entry) {
-
-
-
-
                         index++;
+
                         return AnimationConfiguration.staggeredGrid(
                           position: index,
                           duration: const Duration(milliseconds: 600),
@@ -57,7 +64,7 @@ class Academic extends StatelessWidget {
                                 desc: entry.key.values.first,
                                 icon: entry.value.values.first,
                                 subTitle: entry.value.keys.first,
-                                chips: chipList[index],
+                                chips: list[index],
                                 onTap: () {
                                   openAcademicService(
                                     title: entry.key.keys.first,
@@ -69,7 +76,7 @@ class Academic extends StatelessWidget {
                           ),
                         );
                       },
-                    ).skipWhile((entry)=>((userData['userType'] != "student" && entry.key.keys.first == 'السجل المهاري') || (userData['userType'] != "student" && userData['userType']!='academic' && entry.key.keys.first == 'الجدول الدراسي'))).toList(),
+                    ).toList(),
                   ),
                 ),
               )),
