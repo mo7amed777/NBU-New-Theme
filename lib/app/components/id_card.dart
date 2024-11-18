@@ -42,7 +42,7 @@ class IDCard extends StatelessWidget {
                         color: colorWhite,
                       ),
                       child: Center(
-                        child: Image.memory(image!),
+                        child: RepaintBoundary(child: Image.memory(image!)),
                       ),
                     )
                   : Container(

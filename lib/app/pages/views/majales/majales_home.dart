@@ -171,7 +171,8 @@ class MajalesHome extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                Expanded(child: Image.memory(base64Data)),
+                Expanded(
+                    child: RepaintBoundary(child: Image.memory(base64Data))),
                 CustomButton(
                   callBack: () {
                     Get.back();

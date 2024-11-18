@@ -195,7 +195,7 @@ Padding getTable(MahderModel mahderModel, int coulmns) {
               Padding(
                 padding: EdgeInsets.all(4.sp),
                 child: (user.isSigned ?? false)
-                    ? Image.memory(base64Data!)
+                    ? RepaintBoundary(child: Image.memory(base64Data!))
                     : Container(),
               ),
             if (coulmns == 5)
