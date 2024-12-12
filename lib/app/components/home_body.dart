@@ -376,9 +376,12 @@ class HomeBody extends StatelessWidget {
               chips: list[index++],
               onTap: () {
                 if (isHR) {
-                  openHRService(title: entry.key.keys.first);
+                  openHRService(title: entry.key.keys.first, userID: userID);
                 } else {
-                  openAcademicService(title: entry.key.keys.first);
+                  openAcademicService(
+                      title: entry.key.keys.first,
+                      userID: userID,
+                      userType: userType);
                 }
               },
             );
@@ -387,70 +390,73 @@ class HomeBody extends StatelessWidget {
       ),
     );
   }
+}
 
-  void openAcademicService({required String title}) {
-    switch (title) {
-      case 'الفعاليات':
-        getGraduatedServices();
+void openAcademicService(
+    {required String title, required String userID, required String userType}) {
+  switch (title) {
+    case 'الفعاليات':
+      getGraduatedServices();
+      break;
+    case 'البحث العلمى':
+      getResearch(userID: userID);
+      break;
+    case 'الجدول الدراسي':
+      getTimeTable(userID, userType);
+      break;
+    case 'التقويم الدراسي':
+      Get.to(() => Timeline());
+      break;
+    case 'السجل المهاري':
+      loginSkillsRecord();
 
-        break;
-      case 'الجدول الدراسي':
-        getTimeTable(userID, userType);
-        break;
-      case 'التقويم الدراسي':
-        Get.to(() => Timeline());
-        break;
-      case 'السجل المهاري':
-        loginSkillsRecord();
-
-        break;
-    }
+      break;
   }
+}
 
-  void openHRService({required String title}) {
-    switch (title) {
-      case 'الدورات التدريبية':
-        showLoadingOverlay(
-            asyncFunction: (() async => getCourses(userID: userID)));
-        break;
-      case 'الشهادات العلمية':
-        showLoadingOverlay(
-            asyncFunction: (() async => getQualifications(userID: userID)));
-        break;
-      case 'مسير الرواتب':
-        showLoadingOverlay(
-            asyncFunction: (() async => getEmpPayroll(userID: userID)));
-        break;
-      case 'كشف العهد':
-        showLoadingOverlay(
-            asyncFunction: (() async => getCovenants(userID: userID)));
+void openHRService({required String title, required String userID}) {
+  switch (title) {
+    case 'الدورات التدريبية':
+      showLoadingOverlay(
+          asyncFunction: (() async => getCourses(userID: userID)));
+      break;
+    case 'الشهادات العلمية':
+      showLoadingOverlay(
+          asyncFunction: (() async => getQualifications(userID: userID)));
+      break;
+    case 'مسير الرواتب':
+      showLoadingOverlay(
+          asyncFunction: (() async => getEmpPayroll(userID: userID)));
+      break;
+    case 'كشف العهد':
+      showLoadingOverlay(
+          asyncFunction: (() async => getCovenants(userID: userID)));
 
-        break;
-      case 'القرارات المعتمدة':
-        showLoadingOverlay(
-            asyncFunction: (() async => getEmpDecisions(userID: userID)));
-        break;
-      case 'استعلام عن الطلبات':
-        showLoadingOverlay(
-            asyncFunction: (() async => getRequestStatus(userID: userID)));
+      break;
+    case 'القرارات المعتمدة':
+      showLoadingOverlay(
+          asyncFunction: (() async => getEmpDecisions(userID: userID)));
+      break;
+    case 'استعلام عن الطلبات':
+      showLoadingOverlay(
+          asyncFunction: (() async => getRequestStatus(userID: userID)));
 
-        break;
+      break;
 
-      case 'الحضور والإنصراف':
-        showLoadingOverlay(
-            asyncFunction: (() async => getEmpLeaveRequest(userID: userID)));
+    case 'الحضور والإنصراف':
+      showLoadingOverlay(
+          asyncFunction: (() async => getEmpLeaveRequest(userID: userID)));
 
-        break;
-      case 'طلبات الاستئذان':
-        showLoadingOverlay(
-            asyncFunction: (() async => getEmpAttendance(userID: userID)));
+      break;
+    case 'طلبات الاستئذان':
+      showLoadingOverlay(
+          asyncFunction: (() async => getEmpAttendance(userID: userID)));
 
-        break;
-      case 'تعريف الراتب':
-        showLoadingOverlay(
-            asyncFunction: (() async => getEmpSalary(userID: userID)));
-        break;
-    }
+      break;
+    case 'تعريف الراتب':
+      showLoadingOverlay(
+          asyncFunction: (() async => getEmpSalary(userID: userID)));
+      break;
   }
 }
 

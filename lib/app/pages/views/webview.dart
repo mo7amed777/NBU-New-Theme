@@ -78,9 +78,10 @@ class _WebViewScreenState extends State<WebViewScreen> {
         ),
         if (_stackToView == 1)
           Center(
-              child: CircularProgressIndicator(
-            color: colorPrimary,
-          ))
+            child: CircularProgressIndicator(
+              color: colorPrimary,
+            ),
+          )
       ],
     );
   }

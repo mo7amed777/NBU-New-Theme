@@ -353,13 +353,11 @@ class _MyInvitesState extends State<MyInvites> {
       content: Column(
         children: [
           InputField(
-            label: 'الإسم',
             hint: 'إسم الشخص المدعو',
             controller: nameController,
           ),
           InputField(
-            label: 'رقم الهاتف',
-            hint: 'ex: 05xxxxxxxx',
+            hint: 'رقم الهاتف',
             controller: phoneController,
             keyboardType: TextInputType.phone,
           ),

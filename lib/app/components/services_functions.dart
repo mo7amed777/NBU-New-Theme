@@ -7,6 +7,7 @@ import 'package:eservices/app/pages/views/academic/schedule.dart';
 import 'package:eservices/app/pages/views/majales/majales_home.dart';
 import 'package:eservices/app/pages/views/majales/pdf_viewer.dart';
 import 'package:eservices/app/pages/views/print_card.dart';
+import 'package:eservices/app/pages/views/research/reserch_home.dart';
 import 'package:eservices/app/pages/views/skills_record/skills_record.dart';
 import 'package:eservices/app/pages/views/support_me/support_me.dart';
 import 'package:eservices/app/routes/app_pages.dart';
@@ -63,7 +64,7 @@ void getSurveys({required String userID}) async {
   });
 }
 
-Future<void> getMajales({required String userID}) async {
+void getMajales({required String userID}) async {
   showLoadingOverlay(asyncFunction: () async {
     Map<String, dynamic> userData = MySharedPref.getUserData();
     APIController controller = APIController(
@@ -77,6 +78,28 @@ Future<void> getMajales({required String userID}) async {
     } else {
       CustomSnackBar.showCustomErrorSnackBar(
           title: 'خطأ في الاتصال', message: "هذا المستخدم غير موجود");
+    }
+  });
+}
+
+void getResearch({required String userID}) async {
+  showLoadingOverlay(asyncFunction: () async {
+    APIController controller = APIController(
+        url: 'https://researchtest.nbu.edu.sa/api/Auth/Login',
+        requestType: RequestType.post,
+        body: {
+          'nid': userID,
+        });
+    await controller.getData();
+    if (controller.apiCallStatus == ApiCallStatus.success &&
+        controller.data['returnObject'] != null) {
+      MySharedPref.setResearchToken(controller.data['returnObject']['token']);
+      Get.to(() => Research(
+            userID: userID,
+          ));
+    } else {
+      CustomSnackBar.showCustomErrorSnackBar(
+          title: 'خطأ في الاتصال', message: controller.data['arabicMessage']);
     }
   });
 }

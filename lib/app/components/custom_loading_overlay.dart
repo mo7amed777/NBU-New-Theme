@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-Future<void> showLoadingOverlay({
+showLoadingOverlay({
   required Future<void> Function() asyncFunction, // Set minimum display time
 }) async {
-  await Get.showOverlay(
+  Get.showOverlay(
     asyncFunction: () async {
       // Start both the async function and timer
       await asyncFunction();

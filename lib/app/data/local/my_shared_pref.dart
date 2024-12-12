@@ -10,14 +10,14 @@ class MySharedPref {
   // STORING KEYS
   static const String _userKey = 'user_data';
   static const String _currentLocalKey = 'current_local';
-  static const String _lightThemeKey = 'is_theme_light';
   static const String _grayScaleKey = 'is_gray_scale';
   static const String _majalesToken = 'majales_token';
-  static const String _supportMeToken = 'majales_token';
+  static const String _supportMeToken = 'supportMe_token';
   static const String _graduatedServicesToken = 'graduatedServices_token';
   static const String _auth = 'isAuthenticated';
   static const String _surveyCount = 'surveyCount';
   static const String _skillsRecordToken = 'skillsRecordToken';
+  static const String _researchToken = 'researchToken';
 
   /// init get storage services
   static init() async {
@@ -65,7 +65,14 @@ class MySharedPref {
       _storage.write(_majalesToken, token);
 
   /// get Majales User Token
-  static String getMajalesToken() => _storage.read(_supportMeToken);
+  static String getMajalesToken() => _storage.read(_majalesToken);
+
+  /// Save Research Token
+  static void setResearchToken(String token) =>
+      _storage.write(_researchToken, token);
+
+  /// get Research Token
+  static String getResearchToken() => _storage.read(_researchToken);
 
   /// Save Majales User Token
   static void setSupportMeToken(String token) =>

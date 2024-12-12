@@ -1,3 +1,4 @@
+import 'package:eservices/app/components/home_body.dart';
 import 'package:eservices/app/components/mycard.dart';
 import 'package:eservices/app/components/services_functions.dart';
 import 'package:eservices/config/const.dart';
@@ -69,6 +70,7 @@ class Academic extends StatelessWidget {
                                   openAcademicService(
                                     title: entry.key.keys.first,
                                     userID: userID,
+                                    userType: userData['userType'],
                                   );
                                 },
                               ),
@@ -107,31 +109,6 @@ class Academic extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void openAcademicService(
-      {required String title, required String userID}) async {
-    switch (title) {
-      case 'الفعاليات':
-        await showLoadingOverlay(
-          asyncFunction: () async {
-            getGraduatedServices();
-          },
-        );
-        break;
-      case 'الجدول الدراسي':
-        showLoadingOverlay(
-            asyncFunction: (() async =>
-                getTimeTable(userID, userData['userType'])));
-        break;
-      case 'التقويم الدراسي':
-        Get.to(() => Timeline());
-        break;
-      case 'السجل المهاري':
-        loginSkillsRecord();
-
-        break;
-    }
   }
 }
 

@@ -4,14 +4,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:eservices/config/theme/app_colors.dart';
 
 class InputField extends StatefulWidget {
-  final String label, hint;
+  final String hint;
   final bool obsecured;
   final TextInputType? keyboardType;
   final TextEditingController controller;
   final int maxLines;
   const InputField(
       {Key? key,
-      required this.label,
       required this.hint,
       required this.controller,
       this.obsecured = false,

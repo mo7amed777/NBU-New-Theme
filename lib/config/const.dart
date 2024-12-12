@@ -79,6 +79,7 @@ const List<List<String>> chipListHR = [
 
 const List<List<String>> chipList = [
   ["السجل", "المهاري", "الدورات", "الشهادات"],
+  ["البحث", "العلمي"],
   ["الجدول", "الدراسي"],
   ["الفعاليات", "التخرج", "الحفل"],
   ["التقويم", "الجامعي"],
@@ -117,6 +118,9 @@ const Map<Map<String, String>, Map<String, IconData>> mainServices = {
 const Map<Map<String, String>, Map<String, IconData>> academicServices = {
   {'السجل المهاري': 'نظام مهارى لحضور الدورات العلمية'}: {
     'حضور الدورات العلمية والحصول على الشهادات': FontAwesomeIcons.userGraduate
+  },
+  {'البحث العلمى': 'نظام البحث العلمي وطلبات التمويل'}: {
+    'طلبات التمويل ومتابعة حالة الطلبات': FontAwesomeIcons.bookAtlas
   },
   {'الجدول الدراسي': 'الجدول الدراسي للعام الجامعي 2024'}: {
     'الجدول الدراسي للعام الجامعي الحالي': FontAwesomeIcons.table
@@ -177,6 +181,15 @@ const Map<Map<String, String>, Map<String, IconData>> majalesHome = {
   {'التوقيع': 'التوقيع الخاص بالمستخدم'}: {
     'إضافة توقيع جديد عن طريق الرسم أو ادراج صورة التوقيع':
         FontAwesomeIcons.signature,
+  },
+};
+
+const Map<Map<String, String>, Map<String, IconData>> researchHome = {
+  {'طلب تمويل': 'إنشاء طلب تمويل جديد'}: {
+    'طلب تمويل جديد خاص بالمستخدم': FontAwesomeIcons.handHoldingDollar,
+  },
+  {'طلباتي': 'عرض الطلبات الخاصة بالمستخدم'}: {
+    'عرض طلبات التمويل ومتابعة حالة الطلبات': FontAwesomeIcons.fileInvoice,
   },
 };
 

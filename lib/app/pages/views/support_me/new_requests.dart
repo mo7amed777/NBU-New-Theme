@@ -72,7 +72,6 @@ class NewSupportRequest extends StatelessWidget {
                         WorkBesidesDropdown(workBesides: workBesides),
                         SizedBox(height: 10.h),
                         InputField(
-                          label: 'عنوان التذكرة',
                           hint: 'ادخل عنوان التذكرة',
                           controller: titleController,
                           keyboardType: TextInputType.text,
@@ -701,7 +700,6 @@ class _WorkBesidesDropdownState extends State<WorkBesidesDropdown> {
       SizedBox(height: 10.h),
       if (isExecutedPlaceRequired)
         InputField(
-          label: 'مكان التنفيذ',
           hint: 'ادخل مكان التنفيذ',
           controller: placeController,
           keyboardType: TextInputType.streetAddress,

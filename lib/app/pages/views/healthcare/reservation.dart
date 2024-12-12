@@ -309,7 +309,6 @@ class _MyDropdownExampleState extends State<MyDropdownExample> {
                 SizedBox(height: 10),
                 if (reserveType == 'تابع')
                   InputField(
-                    label: 'إسم التابع',
                     hint: 'إسم التابع',
                     controller: attendController,
                     keyboardType: TextInputType.name,
@@ -317,7 +316,6 @@ class _MyDropdownExampleState extends State<MyDropdownExample> {
                 if (reserveType == 'تابع') SizedBox(height: 10),
                 if (reserveType == 'تابع')
                   InputField(
-                    label: 'رقم الهوية',
                     hint: 'رقم الهوية',
                     controller: nameController,
                     keyboardType: TextInputType.number,
