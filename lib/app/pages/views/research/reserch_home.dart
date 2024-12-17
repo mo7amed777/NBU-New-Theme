@@ -3,6 +3,7 @@ import 'package:eservices/app/components/custom_loading_overlay.dart';
 import 'package:eservices/app/components/custom_snackbar.dart';
 import 'package:eservices/app/components/mycard.dart';
 import 'package:eservices/app/data/local/my_shared_pref.dart';
+import 'package:eservices/app/data/models/users/academic_research.dart';
 import 'package:eservices/app/pages/controllers/api_controller.dart';
 import 'package:eservices/app/pages/views/research/finance_request/applicant_data.dart';
 import 'package:eservices/app/services/api_call_status.dart';
@@ -194,7 +195,6 @@ class Research extends StatelessWidget {
   void getFinanceRequests() async {}
 
   void showApplicantData({required int type, required String headers}) async {
-    Map<String, dynamic> userData = {};
     String projectId = '';
     Map<String, dynamic> presidentData = {};
 
@@ -207,31 +207,38 @@ class Research extends StatelessWidget {
       await controller.getData();
       if (controller.apiCallStatus == ApiCallStatus.success &&
           controller.data['returnObject'] != null) {
-        userData = controller.data['returnObject'];
-        controller = APIController(
-          url:
-              'https://researchtest.nbu.edu.sa/api/FinanceRequest/CreateProjectId?EmpId=${userData['id']}&JobCode=${userData['jobCode']}&RequestType=${type}',
-          headers: {'Authorization': headers},
-        );
-        await controller.getData();
-        if (controller.apiCallStatus == ApiCallStatus.success &&
-            controller.data['returnObject'] != null) {
-          projectId = controller.data['returnObject'];
+        AcademicResearch academicResearch =
+            AcademicResearch.fromJson(controller.data['returnObject']);
+        if (type != 4) {
           controller = APIController(
             url:
-                'https://researchtest.nbu.edu.sa/api/FinanceRequest/GetPresidentData?Nid=${userData['nid']}&SecCode=${userData['sectionCode']}&ColCode=${userData['collegeCode']}',
+                'https://researchtest.nbu.edu.sa/api/FinanceRequest/CreateProjectId?EmpId=${academicResearch.id}&JobCode=${academicResearch.jobCode}&RequestType=${type}',
             headers: {'Authorization': headers},
           );
           await controller.getData();
           if (controller.apiCallStatus == ApiCallStatus.success &&
               controller.data['returnObject'] != null) {
-            presidentData = controller.data['returnObject'];
-            Get.to(() => ApplicantData(
-                  projectId: projectId,
-                  presidentData: presidentData,
-                  userData: userData,
-                ));
+            projectId = controller.data['returnObject'];
           }
+        }
+        controller = APIController(
+          url: type == 4
+              ? 'https://researchtest.nbu.edu.sa/api/FinanceRequest/GetScholarshipDepartmentPresidenttData'
+              : 'https://researchtest.nbu.edu.sa/api/FinanceRequest/GetPresidentData?Nid=${academicResearch.nid}&SecCode=${academicResearch.sectionCode}&ColCode=${academicResearch.collegeCode}',
+          headers: {'Authorization': headers},
+        );
+        await controller.getData();
+        if (controller.apiCallStatus == ApiCallStatus.success &&
+            controller.data['returnObject'] != null) {
+          presidentData = type == 4
+              ? controller.data['returnObject'][0]
+              : controller.data['returnObject'];
+          Get.to(() => ApplicantData(
+                projectId: type == 4 ? '' : projectId,
+                presidentData: presidentData,
+                userData: academicResearch,
+                type: type.toString(),
+              ));
         }
       }
     });

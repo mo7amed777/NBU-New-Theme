@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:eservices/app/components/custom_button.dart';
 import 'package:eservices/app/components/custom_snackbar.dart';
 import 'package:eservices/app/components/input_field.dart';
+import 'package:eservices/app/data/models/users/academic_research.dart';
+import 'package:eservices/app/pages/views/research/finance_request/president_agreement.dart';
 import 'package:eservices/config/theme/app_colors.dart';
 import 'package:eservices/config/theme/app_styles.dart';
 import 'package:file_picker/file_picker.dart';
@@ -11,34 +13,56 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:dio/dio.dart' as dio;
 
 class FinanceRequestForm extends StatelessWidget {
-  FinanceRequestForm(
-      {super.key,
-      required this.financePriorties,
-      required this.researcherRoles,
-      required this.userData,
-      required this.projectId,
-      required this.presidentData});
+  FinanceRequestForm({
+    super.key,
+    required this.financePriorties,
+    required this.researcherRoles,
+    required this.userData,
+    required this.projectId,
+    required this.type,
+    required this.presidentData,
+    this.scholarshipId,
+    this.scholarshipCountry,
+    this.scholarshipDegree,
+    this.scholarshipEndDate,
+  });
   List financePriorties, researcherRoles;
-  final Map<String, dynamic> userData, presidentData;
-  final String projectId;
+  final Map<String, dynamic> presidentData;
+  AcademicResearch userData;
+  final String projectId, type;
+  final String? scholarshipId,
+      scholarshipCountry,
+      scholarshipDegree,
+      scholarshipEndDate;
 
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _magazineNameController = TextEditingController();
-  TextEditingController _filedSpecificController = TextEditingController();
-  TextEditingController _websiteController = TextEditingController();
-  TextEditingController _issnController = TextEditingController();
-  TextEditingController _totalSubscribersController = TextEditingController();
-  TextEditingController _fromNBUController = TextEditingController();
-  TextEditingController _outsideNBUController = TextEditingController();
-  TextEditingController _bankNameController = TextEditingController();
-  TextEditingController _ibanController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController(),
+      _magazineNameController = TextEditingController(),
+      _filedSpecificController = TextEditingController(),
+      _websiteController = TextEditingController(),
+      _issnController = TextEditingController(),
+      _totalSubscribersController = TextEditingController(),
+      _fromNBUController = TextEditingController(),
+      _outsideNBUController = TextEditingController(),
+      _bankNameController = TextEditingController(),
+      _ibanController = TextEditingController(),
+      _universityName = TextEditingController(),
+      _order = TextEditingController();
 
   dynamic acceptAttatchment, researchAttatchment;
   bool isAcceptedFromNBU = false, isNotSupportFromAnyWorkBeside = false;
-  String financePriortyId = '-1', applicantRoleId = '-1';
-  late String acceptDate;
+  String financePriortyId = '-1',
+      applicantRoleId = '-1',
+      _universityRanking = '-1';
+  final List _universityRanks = [
+    {'id': -1, 'nameAr': 'التصنيف'},
+    {'id': 1, 'nameAr': 'سنغهاي'},
+    {'id': 2, 'nameAr': 'QS'},
+  ];
+  String acceptDate = '-1';
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -62,14 +86,15 @@ class FinanceRequestForm extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(
-                top: Get.height * 0.15, left: 10.w, right: 10.w),
-            child: Padding(
-              padding: EdgeInsets.all(8.sp),
-              child: SingleChildScrollView(
+                top: Get.height * 0.15, left: 10.w, right: 10.w, bottom: 8.h),
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     InputField(
+                      validate: true,
                       hint: 'عنوان البحث',
                       controller: _titleController,
                     ),
@@ -78,6 +103,9 @@ class FinanceRequestForm extends StatelessWidget {
                       builder: (context, setState) {
                         return dataDropdown(
                           items: financePriorties,
+                          color: financePriortyId != '-1'
+                              ? colorPrimaryLight
+                              : colorRed,
                           item: financePriortyId,
                           onItemSelected: (value) {
                             setState(() {
@@ -89,44 +117,85 @@ class FinanceRequestForm extends StatelessWidget {
                     ),
                     SizedBox(height: 10.h),
                     InputField(
+                      validate: true,
                       hint: "اسم المجلة العلمية",
                       controller: _magazineNameController,
                     ),
                     SizedBox(height: 10.h),
                     InputField(
+                      validate: true,
                       hint: "مجال تخصص المجلة",
                       controller: _filedSpecificController,
                     ),
                     SizedBox(height: 10.h),
                     InputField(
+                      validate: true,
                       hint: 'الموقع الالكتروني للمجلة',
                       controller: _websiteController,
                     ),
                     SizedBox(height: 10.h),
                     InputField(
+                      validate: true,
                       hint: 'الرقم التسلسلي الدولي الموحد (ISSN)',
                       controller: _issnController,
                     ),
                     SizedBox(height: 10.h),
                     InputField(
+                      validate: true,
                       hint: 'عدد المشاركين الكلي',
                       controller: _totalSubscribersController,
                     ),
                     SizedBox(height: 10.h),
                     InputField(
+                      validate: true,
                       hint: 'من الجامعة',
                       controller: _fromNBUController,
                     ),
                     SizedBox(height: 10.h),
                     InputField(
+                      validate: true,
                       hint: 'من خارج الجامعة',
                       controller: _outsideNBUController,
                     ),
                     SizedBox(height: 10.h),
+                    if (type == '3') ...[
+                      InputField(
+                        validate: true,
+                        hint: 'إسم الجامعة',
+                        controller: _universityName,
+                      ),
+                      SizedBox(height: 10.h),
+                      StatefulBuilder(
+                        builder: (context, setState) {
+                          return dataDropdown(
+                            items: _universityRanks,
+                            color: _universityRanking != '-1'
+                                ? colorPrimaryLight
+                                : colorRed,
+                            item: _universityRanking,
+                            onItemSelected: (value) {
+                              setState(() {
+                                _universityRanking = value;
+                              });
+                            },
+                          );
+                        },
+                      ),
+                      SizedBox(height: 10.h),
+                      InputField(
+                        validate: true,
+                        hint: "الترتيب",
+                        controller: _order,
+                      ),
+                      SizedBox(height: 10.h),
+                    ],
                     StatefulBuilder(
                       builder: (context, setState) {
                         return dataDropdown(
                           items: researcherRoles,
+                          color: applicantRoleId != '-1'
+                              ? colorPrimaryLight
+                              : colorRed,
                           item: applicantRoleId,
                           onItemSelected: (value) {
                             setState(() {
@@ -136,32 +205,44 @@ class FinanceRequestForm extends StatelessWidget {
                         );
                       },
                     ),
-                    Wrap(
-                      children: [
-                        StatefulBuilder(builder: (context, setState) {
-                          return buildCheckBox(
-                              title:
-                                  'تم قبول البحث للنشر خلال عملك في جامعة الحدود الشمالية',
-                              isChecked: isAcceptedFromNBU,
-                              onChecked: (value) {
-                                setState(() {
-                                  isAcceptedFromNBU = value ?? false;
-                                });
-                              });
-                        }),
-                        StatefulBuilder(builder: (context, setState) {
-                          return buildCheckBox(
-                              title: 'لم يتم دعم البحث من أي جهة أخرى بالجامعة',
-                              isChecked: isNotSupportFromAnyWorkBeside,
-                              onChecked: (value) {
-                                setState(() {
-                                  isNotSupportFromAnyWorkBeside =
-                                      value ?? false;
-                                });
-                              });
-                        }),
-                      ],
-                    ),
+                    StatefulBuilder(builder: (context, setState) {
+                      return Container(
+                        width: Get.width,
+                        margin: EdgeInsets.symmetric(vertical: 8.sp),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: isAcceptedFromNBU ||
+                                    isNotSupportFromAnyWorkBeside
+                                ? colorPrimaryLight
+                                : colorRed,
+                          ),
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: Wrap(
+                          children: [
+                            buildCheckBox(
+                                title:
+                                    'تم قبول البحث للنشر خلال عملك في جامعة الحدود الشمالية',
+                                isChecked: isAcceptedFromNBU,
+                                onChecked: (value) {
+                                  setState(() {
+                                    isAcceptedFromNBU = value ?? false;
+                                  });
+                                }),
+                            buildCheckBox(
+                                title:
+                                    'لم يتم دعم البحث من أي جهة أخرى بالجامعة',
+                                isChecked: isNotSupportFromAnyWorkBeside,
+                                onChecked: (value) {
+                                  setState(() {
+                                    isNotSupportFromAnyWorkBeside =
+                                        value ?? false;
+                                  });
+                                }),
+                          ],
+                        ),
+                      );
+                    }),
                     Text(
                       ' تاريخ قبول النشر النهائي للبحث :',
                       style: appTextStyle.copyWith(
@@ -169,7 +250,7 @@ class FinanceRequestForm extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      height: 100.h,
+                      height: 50.h,
                       width: Get.width,
                       margin: EdgeInsets.symmetric(vertical: 8.sp),
                       decoration: BoxDecoration(
@@ -178,9 +259,11 @@ class FinanceRequestForm extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.circular(10.r),
                       ),
-                      child: CupertinoDatePicker(
-                        mode: CupertinoDatePickerMode.date,
-                        onDateTimeChanged: (value) {
+                      child: InputDatePickerFormField(
+                        firstDate: DateTime.now(),
+                        fieldLabelText: 'أدخل تاريخ القبول',
+                        lastDate: DateTime.now().add(Duration(days: 365)),
+                        onDateSubmitted: (value) {
                           acceptDate = value.toString().substring(0, 10);
                         },
                       ),
@@ -250,11 +333,13 @@ class FinanceRequestForm extends StatelessWidget {
                     ),
                     SizedBox(height: 10.h),
                     InputField(
+                      validate: true,
                       hint: ' اسم البنك',
                       controller: _bankNameController,
                     ),
                     SizedBox(height: 10.h),
                     InputField(
+                      validate: true,
                       hint: 'رقم الايبان',
                       controller: _ibanController,
                     ),
@@ -262,14 +347,7 @@ class FinanceRequestForm extends StatelessWidget {
                     Center(
                       child: CustomButton(
                         callBack: () {
-                          try {
-                            getPresidentDecision();
-                          } catch (e) {
-                            CustomSnackBar.showCustomErrorToast(
-                                message:
-                                    'حدث خطاء في الاتصال بالانترنت برجاء المحاولة في وقت لاحق');
-                            return;
-                          }
+                          validateForm();
                         },
                         label: 'حفظ',
                         fontSize: 18,
@@ -311,27 +389,21 @@ class FinanceRequestForm extends StatelessWidget {
     );
   }
 
-  Widget buildCheckBox(
-      {required String title, required bool isChecked, required onChecked}) {
-    return Container(
-      width: Get.width,
-      margin: EdgeInsets.symmetric(vertical: 8.sp),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: colorPrimaryLight,
+  Widget buildCheckBox({
+    required String title,
+    required bool isChecked,
+    required onChecked,
+  }) {
+    return CheckboxListTile(
+      title: Text(
+        title,
+        style: appTextStyle.copyWith(
+          color: isChecked ? colorLightGreen : colorBlack,
         ),
-        borderRadius: BorderRadius.circular(10.r),
       ),
-      child: CheckboxListTile(
-          title: Text(
-            title,
-            style: appTextStyle.copyWith(
-              color: isChecked ? colorLightGreen : colorBlack,
-            ),
-          ),
-          checkColor: isChecked ? colorLightGreen : colorBlack,
-          value: isChecked,
-          onChanged: onChecked),
+      checkColor: isChecked ? colorLightGreen : colorBlack,
+      value: isChecked,
+      onChanged: onChecked,
     );
   }
 
@@ -346,8 +418,79 @@ class FinanceRequestForm extends StatelessWidget {
     );
   }
 
-  void getPresidentDecision() async {
-    //Validate all fields required and move to next screen for president sign and form submit
+  void validateForm() async {
+    int total = int.parse(_totalSubscribersController.text);
+    int from = int.parse(_fromNBUController.text);
+    int out = int.parse(_outsideNBUController.text);
+
+    if (total != from + out) {
+      CustomSnackBar.showCustomErrorToast(
+          message: 'عدد المشاركين الكلي لا يساوي العدد من داخل وخارج الجامعة!');
+      return;
+    }
+
+    final bool allFieldsFilled = _formKey.currentState!.validate();
+    if (allFieldsFilled &&
+        (isAcceptedFromNBU || isNotSupportFromAnyWorkBeside) &&
+        acceptDate != '-1' &&
+        applicantRoleId != '-1' &&
+        financePriortyId != '-1' &&
+        acceptAttatchment != null &&
+        researchAttatchment != null) {
+      dio.MultipartFile acceptMultipartFile = dio.MultipartFile.fromFileSync(
+          acceptAttatchment.path,
+          filename: acceptAttatchment.path.split('/').last);
+      dio.MultipartFile researchMultipartFile = dio.MultipartFile.fromFileSync(
+          researchAttatchment.path,
+          filename: researchAttatchment.path.split('/').last);
+      final body = {
+        'UniversityOrder': _order.text,
+        'CollegeName': userData.collegeName,
+        'CollegeCode': userData.collegeCode.toString(),
+        'NidSectionPresident': presidentData['nid'],
+        'AcceptFile': acceptMultipartFile,
+        'ISSN': _issnController.text,
+        'IsAcceptedFromNBU': isAcceptedFromNBU,
+        'NameSectionPresident': presidentData['name'],
+        'IBAN': _ibanController.text,
+        'IsNotSupportFromAnyWorkBeside': isNotSupportFromAnyWorkBeside,
+        'ScholarshipEndDate': scholarshipEndDate,
+        'UniversityRanking': _universityRanking,
+        'TotalCountParticipant': _totalSubscribersController.text,
+        'EmployeeId': userData.id,
+        'UniversityParticipantCount': _fromNBUController.text,
+        'JobCode': userData.jobCode,
+        'FinanceRequestTypeId': type,
+        'ScholarshipDegree': scholarshipDegree,
+        'FinancePriortyId': financePriortyId,
+        'SectionName': userData.sectionName,
+        'SectionCode': userData.sectionCode.toString,
+        'ApplicantRoleId': applicantRoleId,
+        'ProjectId': projectId,
+        'ScholarshipCountry': scholarshipCountry,
+        'JobRankName': userData.lastJobRankName,
+        'MagazineSubjectCategory': _filedSpecificController.text,
+        'ResearchFile': researchMultipartFile,
+        'Title': _titleController.text,
+        'UniversityName': _universityName.text,
+        'EmployeeName': userData.name,
+        'OutsideUnivertstParticipantCount': _outsideNBUController.text,
+        'MagazineUrl': _websiteController.text,
+        'FinalPublicationAcceptanceDate': acceptDate,
+        'Bank': _bankNameController.text,
+        'ScholarshipId': scholarshipId ?? userData.scholarId,
+        'MagazineName': _magazineNameController.text
+      };
+      dio.FormData formData = dio.FormData.fromMap(body);
+
+      Get.to(() => PresidentAgreement(
+            formBody: formData,
+            presidentName: presidentData['name'],
+          ));
+    } else {
+      CustomSnackBar.showCustomErrorToast(message: 'يجب إدخال جميع الحقول!!!');
+      return;
+    }
   }
 }
 
@@ -355,13 +498,14 @@ Widget dataDropdown({
   required String item,
   required List items,
   required ValueChanged<String> onItemSelected,
+  required Color color,
 }) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
     width: Get.width,
     decoration: BoxDecoration(
       border: Border.all(
-        color: colorPrimaryLight,
+        color: color,
       ),
       borderRadius: BorderRadius.circular(10.r),
     ),

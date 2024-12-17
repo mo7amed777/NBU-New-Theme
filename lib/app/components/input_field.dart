@@ -9,11 +9,13 @@ class InputField extends StatefulWidget {
   final TextInputType? keyboardType;
   final TextEditingController controller;
   final int maxLines;
+  final bool validate;
   const InputField(
       {Key? key,
       required this.hint,
       required this.controller,
       this.obsecured = false,
+      this.validate = false,
       this.maxLines = 1,
       this.keyboardType})
       : super(key: key);
@@ -38,11 +40,19 @@ class _InputFieldState extends State<InputField> {
             color: colorPrimaryLight,
           ),
         ),
-        child: TextField(
+        child: TextFormField(
           obscureText: !widget.obsecured ? false : show,
           keyboardType: widget.keyboardType ?? TextInputType.text,
           maxLines: widget.maxLines,
           controller: widget.controller,
+          validator: widget.validate
+              ? (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'هذا الحقل مطلوب *';
+                  }
+                  return null;
+                }
+              : null,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: widget.hint,
@@ -50,7 +60,7 @@ class _InputFieldState extends State<InputField> {
                 fontWeight:
                     widget.obsecured ? FontWeight.bold : FontWeight.normal),
             contentPadding:
-                EdgeInsets.only(right: 8, top: widget.obsecured ? 2 : 5.h),
+                EdgeInsets.only(right: 8.w, top: widget.validate ? 12.h : 2.h),
             suffixIcon: !widget.obsecured
                 ? SizedBox(
                     height: 1,
