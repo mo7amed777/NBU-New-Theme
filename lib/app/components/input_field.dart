@@ -59,8 +59,9 @@ class _InputFieldState extends State<InputField> {
             hintStyle: TextStyle(
                 fontWeight:
                     widget.obsecured ? FontWeight.bold : FontWeight.normal),
-            contentPadding:
-                EdgeInsets.only(right: 8.w, top: widget.validate ? 12.h : 2.h),
+            contentPadding: EdgeInsets.only(
+              right: 8.w,
+            ),
             suffixIcon: !widget.obsecured
                 ? SizedBox(
                     height: 1,

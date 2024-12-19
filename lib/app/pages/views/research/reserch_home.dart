@@ -6,6 +6,7 @@ import 'package:eservices/app/data/local/my_shared_pref.dart';
 import 'package:eservices/app/data/models/users/academic_research.dart';
 import 'package:eservices/app/pages/controllers/api_controller.dart';
 import 'package:eservices/app/pages/views/research/finance_request/applicant_data.dart';
+import 'package:eservices/app/pages/views/research/my_requests/my_finance_requests.dart';
 import 'package:eservices/app/services/api_call_status.dart';
 import 'package:eservices/config/const.dart';
 import 'package:eservices/config/theme/app_colors.dart';
@@ -192,7 +193,22 @@ class Research extends StatelessWidget {
     });
   }
 
-  void getFinanceRequests() async {}
+  void getFinanceRequests() async {
+    await showLoadingOverlay(asyncFunction: () async {
+      String token = MySharedPref.getResearchToken();
+      var headers = 'Bearer $token';
+      APIController controller = APIController(
+        url: 'https://researchtest.nbu.edu.sa/api/FinanceRequest/GetAllRequest',
+        headers: {'Authorization': headers},
+      );
+      await controller.getData();
+      if (controller.apiCallStatus == ApiCallStatus.success &&
+          controller.data['returnObject'] != null) {
+        List data = controller.data['returnObject'];
+        Get.to(() => MyFinanceRequests(requests: data));
+      }
+    });
+  }
 
   void showApplicantData({required int type, required String headers}) async {
     String projectId = '';

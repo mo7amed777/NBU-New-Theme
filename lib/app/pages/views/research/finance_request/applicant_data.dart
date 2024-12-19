@@ -10,6 +10,7 @@ import 'package:eservices/app/pages/views/research/finance_request/request_form.
 import 'package:eservices/app/services/api_call_status.dart';
 import 'package:eservices/config/theme/app_colors.dart';
 import 'package:eservices/config/theme/app_styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -159,16 +160,23 @@ class ApplicantData extends StatelessWidget {
                 controller: _scholarshipDegree,
               ),
               SizedBox(height: 10.h),
-
               InputField(
                 validate: true,
                 hint: "الدولة المبتعث لها",
                 controller: _scholarshipCountry,
               ),
               SizedBox(height: 10.h),
-
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  "  تاريخ إنتهاء البعثة",
+                  style: appTextStyle.copyWith(
+                    color: colorPrimary,
+                  ),
+                ),
+              ),
               Container(
-                height: 50.h,
+                height: 75.h,
                 width: Get.width,
                 margin: EdgeInsets.symmetric(vertical: 8.sp),
                 decoration: BoxDecoration(
@@ -177,16 +185,15 @@ class ApplicantData extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(10.r),
                 ),
-                child: InputDatePickerFormField(
-                  firstDate: DateTime.now(),
-                  fieldLabelText: "تاريخ إنتهاء البعثة",
-                  lastDate: DateTime.now().add(Duration(days: 365)),
-                  onDateSubmitted: (value) {
+                child: CupertinoDatePicker(
+                  onDateTimeChanged: (DateTime value) {
                     _scholarshipEndDate = value.toString().substring(0, 10);
                   },
+                  mode: CupertinoDatePickerMode.date,
+                  backgroundColor: colorPrimaryLighter,
+                  dateOrder: DatePickerDateOrder.ymd,
                 ),
               ),
-              //
             ],
           ),
         ),

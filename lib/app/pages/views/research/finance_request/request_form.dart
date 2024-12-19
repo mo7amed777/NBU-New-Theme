@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:eservices/app/components/custom_button.dart';
 import 'package:eservices/app/components/custom_snackbar.dart';
 import 'package:eservices/app/components/input_field.dart';
@@ -176,6 +175,8 @@ class FinanceRequestForm extends StatelessWidget {
                             onItemSelected: (value) {
                               setState(() {
                                 _universityRanking = value;
+                                print(_universityRanks[
+                                    int.parse(_universityRanking)]['nameAr']);
                               });
                             },
                           );
@@ -189,22 +190,23 @@ class FinanceRequestForm extends StatelessWidget {
                       ),
                       SizedBox(height: 10.h),
                     ],
-                    StatefulBuilder(
-                      builder: (context, setState) {
-                        return dataDropdown(
-                          items: researcherRoles,
-                          color: applicantRoleId != '-1'
-                              ? colorPrimaryLight
-                              : colorRed,
-                          item: applicantRoleId,
-                          onItemSelected: (value) {
-                            setState(() {
-                              applicantRoleId = value;
-                            });
-                          },
-                        );
-                      },
-                    ),
+                    if (type != '4')
+                      StatefulBuilder(
+                        builder: (context, setState) {
+                          return dataDropdown(
+                            items: researcherRoles,
+                            color: applicantRoleId != '-1'
+                                ? colorPrimaryLight
+                                : colorRed,
+                            item: applicantRoleId,
+                            onItemSelected: (value) {
+                              setState(() {
+                                applicantRoleId = value;
+                              });
+                            },
+                          );
+                        },
+                      ),
                     StatefulBuilder(builder: (context, setState) {
                       return Container(
                         width: Get.width,
@@ -250,7 +252,7 @@ class FinanceRequestForm extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      height: 50.h,
+                      height: 75.h,
                       width: Get.width,
                       margin: EdgeInsets.symmetric(vertical: 8.sp),
                       decoration: BoxDecoration(
@@ -259,13 +261,13 @@ class FinanceRequestForm extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.circular(10.r),
                       ),
-                      child: InputDatePickerFormField(
-                        firstDate: DateTime.now(),
-                        fieldLabelText: 'أدخل تاريخ القبول',
-                        lastDate: DateTime.now().add(Duration(days: 365)),
-                        onDateSubmitted: (value) {
+                      child: CupertinoDatePicker(
+                        onDateTimeChanged: (DateTime value) {
                           acceptDate = value.toString().substring(0, 10);
                         },
+                        mode: CupertinoDatePickerMode.date,
+                        backgroundColor: colorPrimaryLighter,
+                        dateOrder: DatePickerDateOrder.ymd,
                       ),
                     ),
                     Container(
@@ -446,7 +448,7 @@ class FinanceRequestForm extends StatelessWidget {
       final body = {
         'UniversityOrder': _order.text,
         'CollegeName': userData.collegeName,
-        'CollegeCode': userData.collegeCode.toString(),
+        'CollegeCode': userData.collegeCode,
         'NidSectionPresident': presidentData['nid'],
         'AcceptFile': acceptMultipartFile,
         'ISSN': _issnController.text,
@@ -454,8 +456,10 @@ class FinanceRequestForm extends StatelessWidget {
         'NameSectionPresident': presidentData['name'],
         'IBAN': _ibanController.text,
         'IsNotSupportFromAnyWorkBeside': isNotSupportFromAnyWorkBeside,
-        'ScholarshipEndDate': scholarshipEndDate,
-        'UniversityRanking': _universityRanking,
+        'ScholarshipEndDate': type != '4' ? null : scholarshipEndDate,
+        'UniversityRanking': type != '3'
+            ? null
+            : _universityRanks[int.parse(_universityRanking)]['nameAr'],
         'TotalCountParticipant': _totalSubscribersController.text,
         'EmployeeId': userData.id,
         'UniversityParticipantCount': _fromNBUController.text,
@@ -464,7 +468,7 @@ class FinanceRequestForm extends StatelessWidget {
         'ScholarshipDegree': scholarshipDegree,
         'FinancePriortyId': financePriortyId,
         'SectionName': userData.sectionName,
-        'SectionCode': userData.sectionCode.toString,
+        'SectionCode': userData.sectionCode,
         'ApplicantRoleId': applicantRoleId,
         'ProjectId': projectId,
         'ScholarshipCountry': scholarshipCountry,
@@ -486,6 +490,7 @@ class FinanceRequestForm extends StatelessWidget {
       Get.to(() => PresidentAgreement(
             formBody: formData,
             presidentName: presidentData['name'],
+            userId: userData.nid!,
           ));
     } else {
       CustomSnackBar.showCustomErrorToast(message: 'يجب إدخال جميع الحقول!!!');
