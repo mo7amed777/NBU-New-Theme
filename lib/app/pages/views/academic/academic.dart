@@ -18,13 +18,13 @@ import 'package:eservices/app/pages/views/academic/timeline.dart';
 class Academic extends StatelessWidget {
   String userID;
   List<List<String>> list;
-  Academic({required this.userID, required this.list});
+  Map<Map<String, String>, Map<String, IconData>> services;
+  Academic({required this.userID, required this.list, required this.services});
   Map<String, dynamic> userData = MySharedPref.getUserData();
 
   @override
   Widget build(BuildContext context) {
     int index = -1;
-
     return Scaffold(
       backgroundColor: colorWhite,
       body: Stack(
@@ -41,16 +41,7 @@ class Academic extends StatelessWidget {
                         mainAxisSpacing: 5.sp,
                         crossAxisCount: 1),
                     physics: BouncingScrollPhysics(),
-                    children: academicServices.entries.skipWhile((entry) {
-                      final keyMap = entry.key;
-                      // Extract the first key from the inner Map<String, String>
-                      final firstKey = keyMap.entries.first.key;
-                      return ((userData['userType'] != "student" &&
-                              firstKey == 'السجل المهاري') ||
-                          (userData['userType'] != "student" &&
-                              userData['userType'] != 'academic' &&
-                              firstKey == 'الجدول الدراسي'));
-                    }).map(
+                    children: services.entries.map(
                       (entry) {
                         index++;
 

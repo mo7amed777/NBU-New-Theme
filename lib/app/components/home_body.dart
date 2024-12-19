@@ -39,20 +39,8 @@ class HomeBody extends StatelessWidget {
     required this.userType,
   });
 
-  // final TextEditingController _searchController = TextEditingController();
-
-  void getAllServices() {
-    for (List<String> appService in appServicesChips) {
-      for (String service in appService) {
-        allServices.add(service);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    getAllServices();
-
     return SingleChildScrollView(
         child: switch (index) {
       0 => Column(
@@ -85,22 +73,25 @@ class HomeBody extends StatelessWidget {
           SizedBox(height: 5.h),
           servicesCards(userID),
           SizedBox(height: 16.h),
-          sectionTitle(
-            title: "الخدمات الاكاديمية",
-            onViewAll: () {
-              List<List<String>> list = [...chipList];
-
-              if (userType != "student") {
-                list.removeAt(0);
-              }
-              if (userType != "student" && userType != 'academic') {
-                list.removeAt(0);
-              }
-              Get.to(Academic(userID: userID, list: list));
-            },
-          ),
-          SizedBox(height: 5.h),
-          academicCards(userID, academicServices, false),
+          if (userType != "student" && userType != "academic") ...[
+            sectionTitle(
+              title: "الخدمات الاكاديمية",
+              onViewAll: () {
+                Get.to(Academic(
+                    userID: userID,
+                    services: userType == "student"
+                        ? studentServices
+                        : academicServices,
+                    list:
+                        userType == "student" ? studentChips : academicChips));
+              },
+            ),
+            SizedBox(height: 5.h),
+            academicCards(
+                userID,
+                userType == "student" ? studentServices : academicServices,
+                false),
+          ],
           SizedBox(height: 16.h),
           if (userType != "student") ...[
             sectionTitle(
@@ -346,7 +337,11 @@ class HomeBody extends StatelessWidget {
 
   Widget academicCards(userID,
       Map<Map<String, String>, Map<String, IconData>> servicesList, bool isHR) {
-    List<List<String>> list = isHR ? [...chipListHR] : [...chipList];
+    List<List<String>> list = isHR
+        ? [...chipListHR]
+        : userType == "student"
+            ? [...studentChips]
+            : [...academicChips];
 
     int index = 0;
     return SingleChildScrollView(
@@ -355,19 +350,7 @@ class HomeBody extends StatelessWidget {
         children: servicesList.entries.map(
           (entry) {
             String title = entry.key.keys.first;
-            if (!isHR) {
-              if (userType != "student" && title == 'السجل المهاري') {
-                list.removeAt(index);
-                return Container();
-              }
-              if (userType != "student" &&
-                  userType != 'academic' &&
-                  title == 'الجدول الدراسي') {
-                list.removeAt(index);
 
-                return Container();
-              }
-            }
             return MyCard(
               title: entry.key.keys.first,
               desc: entry.key.values.first,

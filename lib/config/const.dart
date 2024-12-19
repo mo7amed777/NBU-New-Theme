@@ -77,9 +77,15 @@ const List<List<String>> chipListHR = [
   ["الراتب", "تعريف"],
 ];
 
-const List<List<String>> chipList = [
-  ["السجل", "المهاري", "الدورات", "الشهادات"],
+const List<List<String>> academicChips = [
   ["البحث", "العلمي"],
+  ["الجدول", "الدراسي"],
+  ["الفعاليات", "التخرج", "الحفل"],
+  ["التقويم", "الجامعي"],
+];
+
+const List<List<String>> studentChips = [
+  ["السجل", "المهاري", "الدورات", "الشهادات"],
   ["الجدول", "الدراسي"],
   ["الفعاليات", "التخرج", "الحفل"],
   ["التقويم", "الجامعي"],
@@ -116,11 +122,23 @@ const Map<Map<String, String>, Map<String, IconData>> mainServices = {
 };
 
 const Map<Map<String, String>, Map<String, IconData>> academicServices = {
-  {'السجل المهاري': 'نظام مهارى لحضور الدورات العلمية'}: {
-    'حضور الدورات العلمية والحصول على الشهادات': FontAwesomeIcons.userGraduate
-  },
   {'البحث العلمى': 'نظام البحث العلمي وطلبات التمويل'}: {
     'طلبات التمويل ومتابعة حالة الطلبات': FontAwesomeIcons.bookAtlas
+  },
+  {'الجدول الدراسي': 'الجدول الدراسي للعام الجامعي 2024'}: {
+    'الجدول الدراسي للعام الجامعي الحالي': FontAwesomeIcons.table
+  },
+  {'الفعاليات': 'نظام حضور الفعاليات الخاص بالخريجين '}: {
+    'حضور حفلات الخريجين لدى الجامعة': FontAwesomeIcons.graduationCap
+  },
+  {'التقويم الدراسي': 'التقويم الدراسي لعام 2024 / 2025'}: {
+    'التقويم الدراسي للعام الجامعي الحالي': FontAwesomeIcons.calendarDays
+  },
+};
+
+const Map<Map<String, String>, Map<String, IconData>> studentServices = {
+  {'السجل المهاري': 'نظام مهارى لحضور الدورات العلمية'}: {
+    'حضور الدورات العلمية والحصول على الشهادات': FontAwesomeIcons.userGraduate
   },
   {'الجدول الدراسي': 'الجدول الدراسي للعام الجامعي 2024'}: {
     'الجدول الدراسي للعام الجامعي الحالي': FontAwesomeIcons.table
@@ -223,9 +241,3 @@ const Map<Map<String, String>, Map<String, IconData>> meetingDetails = {
     'ملفات المرفقات الملحقة بكل موضوع': FontAwesomeIcons.fileContract,
   },
 };
-
-const List<List<String>> appServicesChips = [
-  ...mainChipList,
-  ...chipList,
-  ...chipListHR
-];
